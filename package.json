@@ -1,0 +1,21 @@
+{
+  "name": "year-progress",
+  "version": "1.0.0",
+  "description": "A minimal, full-screen visualization of the year's progress, designed to be used as a dynamic wallpaper.",
+  "main": "generate-wallpaper.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pranmya/year-progress.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/pranmya/year-progress/issues"
+  },
+  "homepage": "https://github.com/pranmya/year-progress#readme"
+}
