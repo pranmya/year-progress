@@ -49,7 +49,18 @@ function generateWallpaper(resKey, width, height) {
     ctx.fillRect(0, 0, width, height);
 
     // 2. Date Calc
-    const now = new Date();
+    let now = new Date();
+
+    // Manual Override for Testing (e.g., node generate-wallpaper.js 2026-06-01)
+    const args = process.argv.slice(2);
+    if (args.length > 0) {
+        const testDate = new Date(args[0]);
+        if (!isNaN(testDate)) {
+            now = testDate;
+            console.log(`[TEST MODE] Simulating date: ${now.toDateString()}`);
+        }
+    }
+
     const year = now.getFullYear();
     const dayOfYear = getDayOfYear(now);
     const totalDays = 365;
