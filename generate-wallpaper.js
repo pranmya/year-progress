@@ -2,11 +2,19 @@ const { createCanvas } = require('canvas');
 const fs = require('fs');
 const path = require('path');
 
-// Config
-const WIDTH = 1080;
-const HEIGHT = 1920;
-const MARGIN = 100;
-const COLS = 19;
+// Common Resolutions (Width x Height)
+const RESOLUTIONS = [
+    { name: 'Default (FHD)', w: 1080, h: 1920, id: 'default' },
+    { name: 'Samsung S24 Ultra', w: 1440, h: 3120, id: 's24u' },
+    { name: 'Pixel 8 Pro', w: 1344, h: 2992, id: 'nz8p' },
+    { name: 'iPhone 15 Pro Max', w: 1290, h: 2796, id: 'i15pm' },
+    { name: 'iPhone 15/14', w: 1179, h: 2556, id: 'i15' },
+    { name: 'Samsung S23/24', w: 1080, h: 2340, id: 's24' },
+    { name: 'OnePlus 11/12', w: 1440, h: 3216, id: 'op12' },
+    { name: 'Sony Xperia 1 V', w: 1644, h: 3840, id: 'x1v' }, // 4K
+    { name: 'Generic HD', w: 720, h: 1280, id: 'hd' },
+    { name: 'Tablet / Folding (Square-ish)', w: 2200, h: 2480, id: 'fold' }
+];
 
 // Theme Config (Dark Default)
 const theme = {
@@ -25,13 +33,20 @@ function getDayOfYear(date) {
     return Math.floor(diff / oneDay);
 }
 
-function drawWallpaper() {
-    const canvas = createCanvas(WIDTH, HEIGHT);
+function generateWallpaper(resKey, width, height) {
+    const canvas = createCanvas(width, height);
     const ctx = canvas.getContext('2d');
+
+    // Scale Logic: Adjust sizes based on resolution relative to 1080p width
+    const scale = width / 1080;
+    const MARGIN = 100 * scale;
+    const fontYearIdx = 120 * scale;
+    const fontDayIdx = 40 * scale;
+    const GAP = 15 * scale;
 
     // 1. Fill Background
     ctx.fillStyle = theme.bg;
-    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    ctx.fillRect(0, 0, width, height);
 
     // 2. Date Calc
     const now = new Date();
@@ -44,30 +59,32 @@ function drawWallpaper() {
 
     // Year
     // Note: 'Inter' font might not be available in CI env, falling back to sans-serif
-    ctx.font = 'bold 120px sans-serif';
+    ctx.font = `bold ${fontYearIdx}px sans-serif`;
     ctx.fillStyle = theme.highlight;
-    ctx.fillText(year, WIDTH / 2, 250);
+    ctx.fillText(year, width / 2, height * 0.15); // 15% down
 
     // Day Counter
-    ctx.font = '40px sans-serif';
+    ctx.font = `${fontDayIdx}px sans-serif`;
     ctx.fillStyle = theme.text;
-    ctx.fillText(`Day ${dayOfYear} of ${totalDays}`, WIDTH / 2, 320);
+    ctx.fillText(`Day ${dayOfYear} of ${totalDays}`, width / 2, height * 0.18); // 18% down
 
     // 4. Draw Grid
-    const gridWidth = WIDTH - (MARGIN * 2);
-    const gap = 15;
-    const dotSize = (gridWidth - ((COLS - 1) * gap)) / COLS;
+    const cols = 19;
+    const gridWidth = width - (MARGIN * 2);
+
+    // dotSize calc
+    const dotSize = (gridWidth - ((cols - 1) * GAP)) / cols;
     const radius = dotSize / 2;
 
     let xStart = MARGIN + radius;
-    let yStart = 450;
+    let yStart = height * 0.25; // Start grid 25% down
 
     for (let i = 1; i <= totalDays; i++) {
-        const colIndex = (i - 1) % COLS;
-        const rowIndex = Math.floor((i - 1) / COLS);
+        const colIndex = (i - 1) % cols;
+        const rowIndex = Math.floor((i - 1) / cols);
 
-        const cx = xStart + (colIndex * (dotSize + gap));
-        const cy = yStart + (rowIndex * (dotSize + gap));
+        const cx = xStart + (colIndex * (dotSize + GAP));
+        const cy = yStart + (rowIndex * (dotSize + GAP));
 
         ctx.beginPath();
         ctx.arc(cx, cy, radius, 0, Math.PI * 2);
@@ -80,26 +97,35 @@ function drawWallpaper() {
             // Today
             ctx.fillStyle = theme.dotGlow;
             ctx.shadowColor = theme.dotGlow;
-            ctx.shadowBlur = 40;
+            ctx.shadowBlur = 40 * scale;
             ctx.fill();
             ctx.shadowBlur = 0;
 
             // Highlight ring
             ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 2 * scale;
             ctx.stroke();
         } else {
             // Future
             ctx.strokeStyle = theme.dotEmpty;
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 2 * scale;
             ctx.stroke();
         }
     }
 
     // Save to file
+    // If default, save as wallpaper.png, else wallpaper-resolution.png
+    let filename = 'wallpaper.png';
+    if (resKey !== 'default') {
+        filename = `wallpaper-${width}x${height}.png`;
+    }
+
     const buffer = canvas.toBuffer('image/png');
-    fs.writeFileSync(path.join(__dirname, 'wallpaper.png'), buffer);
-    console.log('Wallpaper generated: wallpaper.png');
+    fs.writeFileSync(path.join(__dirname, filename), buffer);
+    console.log(`Generated: ${filename} (${width}x${height})`);
 }
 
-drawWallpaper();
+// Main Loop
+RESOLUTIONS.forEach(res => {
+    generateWallpaper(res.id, res.w, res.h);
+});

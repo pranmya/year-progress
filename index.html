@@ -13,32 +13,78 @@
 
 <body>
     <div id="app">
-        <header>
-            <h1 id="year-title">2026</h1>
-            <div id="progress-text">Day <span id="current-day-num">0</span> of 365</div>
-        </header>
-        <canvas id="wallpaper-canvas"></canvas>
-
-        <div id="theme-controls">
-            <button class="theme-btn" data-set-theme="dark" style="background-color: #0a0a0a;" title="Dark"></button>
-            <button class="theme-btn" data-set-theme="light" style="background-color: #f4f4f4;" title="Light"></button>
-            <button class="theme-btn" data-set-theme="cyberpunk" style="background-color: #0d0221;"
-                title="Cyberpunk"></button>
-            <button id="download-btn" class="theme-btn" title="Download Image">⬇</button>
-            <button id="help-btn" class="theme-btn" title="How to Install">?</button>
+        <!-- Live Preview -->
+        <div id="canvas-wrapper">
+            <canvas id="wallpaper-canvas"></canvas>
         </div>
 
-        <div id="help-modal" class="modal hidden">
-            <div class="modal-content">
+        <div id="ui-container">
+            <!-- Theme Controls -->
+            <div id="theme-controls">
+                <button class="theme-btn" data-set-theme="dark" style="background-color: #0a0a0a;"
+                    title="Dark"></button>
+                <button class="theme-btn" data-set-theme="light" style="background-color: #f4f4f4;"
+                    title="Light"></button>
+                <button class="theme-btn" data-set-theme="cyberpunk" style="background-color: #0d0221;"
+                    title="Cyberpunk"></button>
+            </div>
+
+            <!-- Configuration Section -->
+            <div id="config-section">
+                <h2>1. Select Your Device</h2>
+                <select id="resolution-select">
+                    <option value="default">Default (FHD 1080x1920)</option>
+                    <option value="s24u">Samsung S24 Ultra (1440x3120)</option>
+                    <option value="nz8p">Pixel 8 Pro (1344x2992)</option>
+                    <option value="i15pm">iPhone 15 Pro Max (1290x2796)</option>
+                    <option value="i15">iPhone 15/14 (1179x2556)</option>
+                    <option value="s24">Samsung S23/24 (1080x2340)</option>
+                    <option value="op12">OnePlus 11/12 (1440x3216)</option>
+                    <option value="x1v">Sony Xperia 1 V (1644x3840)</option>
+                    <option value="hd">Generic HD (720x1280)</option>
+                    <option value="fold">Tablet / Folding (2200x2480)</option>
+                </select>
+
+                <h2>2. Your Automation Link</h2>
+                <div class="link-box">
+                    <input type="text" id="generated-link" readonly
+                        value="https://raw.githubusercontent.com/pranmya/year-progress/main/wallpaper.png">
+                    <button id="copy-btn">Copy</button>
+                </div>
+            </div>
+
+            <button id="toggle-guide-btn">Show Setup Guide (MacroDroid)</button>
+        </div>
+
+        <!-- Embedded Guide Modal -->
+        <div id="guide-modal" class="modal hidden">
+            <div class="modal-content large">
                 <span id="close-modal">&times;</span>
-                <h2>Set as Wallpaper</h2>
-                <p><strong>Android:</strong></p>
-                <ol>
-                    <li>Install <em>Wallpaper Engine</em> or <em>Lively Wallpaper</em>.</li>
-                    <li>Select "Add" -> "Open URL".</li>
-                    <li>Paste this website's URL.</li>
-                </ol>
-                <p><em>Theme selection is saved automatically!</em></p>
+                <h2>How to Automate (MacroDroid)</h2>
+                <div class="guide-steps">
+                    <div class="step">
+                        <span class="step-num">1</span>
+                        <p><strong>Trigger</strong>: Add "Day/Time Trigger". Set to <strong>00:05</strong> every day.
+                        </p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">2</span>
+                        <p><strong>Action 1</strong>: Add "HTTP Request".</p>
+                        <ul>
+                            <li>Method: <strong>GET</strong></li>
+                            <li>URL: <strong>Paste the link from above!</strong></li>
+                            <li>Response: "Save to file" -> Name it <code>wallpaper.png</code></li>
+                        </ul>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">3</span>
+                        <p><strong>Action 2</strong>: Add "Set Wallpaper".</p>
+                        <ul>
+                            <li>Select "Image"</li>
+                            <li>Choose the <code>wallpaper.png</code> you just saved.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

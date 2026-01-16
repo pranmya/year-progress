@@ -150,33 +150,68 @@ document.addEventListener('DOMContentLoaded', () => {
         drawWallpaper();
     }
 
-    // Listeners
+    // --- UI Logic ---
+    const resolutionSelect = document.getElementById('resolution-select');
+    const generatedLinkInput = document.getElementById('generated-link');
+    const copyBtn = document.getElementById('copy-btn');
+    const guideBtn = document.getElementById('toggle-guide-btn');
+    const guideModal = document.getElementById('guide-modal');
+    const closeModal = document.getElementById('close-modal');
+
+    // Base Repo URL (Adjust user if needed, but this uses the current one)
+    const BASE_URL = 'https://raw.githubusercontent.com/pranmya/year-progress/main/';
+
+    function updateLink() {
+        const res = resolutionSelect.value;
+        let filename = 'wallpaper.png';
+
+        if (res !== 'default') {
+            const selectedOpt = resolutionSelect.options[resolutionSelect.selectedIndex];
+            // Format: "Samsung S24 Ultra (1440x3120)"
+            // Use ID map from option value to construct filename
+            // Map matches generate-wallpaper.js IDs
+            const resMap = {
+                's24u': '1440x3120',
+                'nz8p': '1344x2992',
+                'i15pm': '1290x2796',
+                'i15': '1179x2556',
+                's24': '1080x2340',
+                'op12': '1440x3216',
+                'x1v': '1644x3840',
+                'hd': '720x1280',
+                'fold': '2200x2480'
+            };
+
+            if (resMap[res]) {
+                filename = `wallpaper-${resMap[res]}.png`;
+            }
+        }
+
+        generatedLinkInput.value = BASE_URL + filename;
+    }
+
+    resolutionSelect.addEventListener('change', updateLink);
+
+    copyBtn.addEventListener('click', () => {
+        generatedLinkInput.select();
+        document.execCommand('copy'); // Legacy but reliable
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy', 2000);
+    });
+
+    // Guide Modal
+    guideBtn.addEventListener('click', () => guideModal.classList.remove('hidden'));
+    closeModal.addEventListener('click', () => guideModal.classList.add('hidden'));
+    window.addEventListener('click', (e) => {
+        if (e.target === guideModal) guideModal.classList.add('hidden');
+    });
+
+    // Theme Buttons
     document.querySelectorAll('.theme-btn').forEach(btn => {
-        if (btn.id === 'help-btn' || btn.id === 'download-btn') return;
         btn.addEventListener('click', (e) => setTheme(e.target.dataset.setTheme));
     });
 
-    // Download Logic
-    document.getElementById('download-btn').addEventListener('click', () => {
-        const link = document.createElement('a');
-        link.download = 'year-progress-wallpaper.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-    });
-
-    // Modal
-    const helpBtn = document.getElementById('help-btn');
-    const helpModal = document.getElementById('help-modal');
-    const closeModal = document.getElementById('close-modal');
-
-    if (helpBtn) {
-        helpBtn.addEventListener('click', () => helpModal.classList.remove('hidden'));
-        closeModal.addEventListener('click', () => helpModal.classList.add('hidden'));
-        window.addEventListener('click', (e) => {
-            if (e.target === helpModal) helpModal.classList.add('hidden');
-        });
-    }
-
     // Init
     initTheme();
+    updateLink(); // Set initial link
 });

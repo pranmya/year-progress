@@ -1,29 +1,38 @@
 :root {
     /* Default (Dark) Theme */
     --bg-color: #0a0a0a;
-    --text-color: #888;
+    --text-color: #ccc;
+    --text-muted: #666;
     --text-highlight: #fff;
     --modal-bg: #1a1a1a;
     --modal-text: #fff;
-    --ui-bg: rgba(255, 255, 255, 0.1);
+    --ui-bg: #111;
+    --input-bg: #222;
+    --accent: #00f0ff;
 }
 
 [data-theme="light"] {
     --bg-color: #f4f4f4;
-    --text-color: #666;
+    --text-color: #333;
+    --text-muted: #888;
     --text-highlight: #000;
     --modal-bg: #fff;
     --modal-text: #333;
-    --ui-bg: rgba(0, 0, 0, 0.05);
+    --ui-bg: #e0e0e0;
+    --input-bg: #fff;
+    --accent: #ff4757;
 }
 
 [data-theme="cyberpunk"] {
     --bg-color: #0d0221;
     --text-color: #00f0ff;
+    --text-muted: #4e2a84;
     --text-highlight: #ffe100;
     --modal-bg: #1a0b2e;
     --modal-text: #00f0ff;
-    --ui-bg: rgba(0, 240, 255, 0.1);
+    --ui-bg: #1a0b2e;
+    --input-bg: #261447;
+    --accent: #ff00ff;
 }
 
 * {
@@ -41,6 +50,7 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    /* Prevent body scroll, use app scroll if needed */
     transition: background-color 0.5s ease;
 }
 
@@ -50,72 +60,134 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    position: relative;
+    justify-content: flex-start;
+    padding: 2rem;
+    gap: 1.5rem;
+    overflow-y: auto;
+    /* Allow scrolling for config on small screens */
 }
 
-/* Canvas Styling */
+/* 1. Live Preview Area */
+#canvas-wrapper {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 280px;
+    /* Force phone-like preview size */
+    aspect-ratio: 9/16;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background: #000;
+    margin-bottom: 1rem;
+}
+
 canvas {
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-/* Header overlay on top of canvas (optional, or drawn on canvas) */
-/* We will draw text ON the canvas for the wallpaper export, 
-   but we can keep HTML header for web preview if desired.
-   For now, hiding HTML header to rely on Canvas rendering for consistency. */
-header {
-    display: none;
+/* 2. UI Controls Area */
+#ui-container {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
 }
 
-/* Theme Selector UI */
+/* Theme Buttons */
 #theme-controls {
-    position: absolute;
-    bottom: 2rem;
     display: flex;
     gap: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    background: var(--ui-bg);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 100;
-}
-
-body:hover #theme-controls {
-    opacity: 1;
 }
 
 .theme-btn {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
     transition: transform 0.2s, border-color 0.2s;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--text-highlight);
-    font-size: 10px;
 }
 
-.theme-btn:hover {
-    transform: scale(1.2);
+.theme-btn:hover,
+.theme-btn.active {
+    transform: scale(1.1);
     border-color: var(--text-highlight);
+    box-shadow: 0 0 10px var(--accent);
 }
 
-#help-btn {
-    background-color: transparent;
-    border: 1px solid var(--text-color);
+/* Config Section */
+#config-section {
+    background: var(--ui-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    width: 100%;
+    border: 1px solid var(--text-muted);
+}
+
+h2 {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 0.8rem;
+}
+
+select {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: 1px solid var(--text-muted);
+    background: var(--input-bg);
+    color: var(--text-highlight);
+    font-family: inherit;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+}
+
+.link-box {
+    display: flex;
+    gap: 0.5rem;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: 1px solid var(--text-muted);
+    background: var(--input-bg);
+    color: var(--text-highlight);
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+button {
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    border: none;
+    background: var(--accent);
+    color: #000;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.2s;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+#toggle-guide-btn {
+    background: transparent;
+    border: 1px solid var(--text-muted);
     color: var(--text-color);
-    font-weight: bold;
+    width: 100%;
 }
 
-/* Modal Styles */
+/* Modal Styling */
 .modal {
     display: flex;
     position: fixed;
@@ -124,11 +196,12 @@ body:hover #theme-controls {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.8);
     justify-content: center;
     align-items: center;
     opacity: 1;
     transition: opacity 0.3s;
+    padding: 1rem;
 }
 
 .modal.hidden {
@@ -136,46 +209,59 @@ body:hover #theme-controls {
     pointer-events: none;
 }
 
-.modal-content {
-    background-color: var(--modal-bg);
+.modal-content.large {
+    max-width: 600px;
+    /* Wider for guide */
+    background: var(--modal-bg);
     color: var(--modal-text);
     padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    max-width: 400px;
-    width: 80%;
+    border-radius: 16px;
+    border: 1px solid var(--text-muted);
     position: relative;
-    border: 1px solid var(--text-color);
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
-.modal-content h2 {
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
+.guide-steps .step {
+    margin-bottom: 1.5rem;
+    padding-left: 3rem;
+    position: relative;
 }
 
-.modal-content ol {
-    margin-left: 1.5rem;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    margin-bottom: 1rem;
-}
-
-.modal-content p {
-    font-size: 0.9rem;
+.step-num {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2rem;
+    height: 2rem;
+    background: var(--accent);
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
 }
 
 #close-modal {
     position: absolute;
-    top: 0.5rem;
-    right: 1rem;
-    font-size: 1.5rem;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2rem;
     cursor: pointer;
-    color: var(--text-color);
 }
 
-@media (max-width: 480px) {
-    #theme-controls {
-        opacity: 0.3;
-        bottom: 3rem;
+/* Responsive */
+@media (min-width: 768px) {
+    #app {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 4rem;
+    }
+
+    #canvas-wrapper {
+        margin-bottom: 0;
+        max-width: 320px;
     }
 }

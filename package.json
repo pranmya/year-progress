@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/pranmya/year-progress/issues"
   },
-  "homepage": "https://github.com/pranmya/year-progress#readme"
+  "homepage": "https://github.com/pranmya/year-progress#readme",
+  "dependencies": {
+    "canvas": "^3.2.1"
+  }
 }
