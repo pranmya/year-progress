@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year Progress</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <h1 id="year-title">2026</h1>
+            <div id="progress-text">Day <span id="current-day-num">0</span> of 365</div>
+        </header>
+        <div id="grid-container">
+            <!-- Dots will be inserted here by JS -->
+        </div>
+
+        <div id="theme-controls">
+            <button class="theme-btn" data-set-theme="dark" style="background-color: #0a0a0a;" title="Dark"></button>
+            <button class="theme-btn" data-set-theme="light" style="background-color: #f4f4f4;" title="Light"></button>
+            <button class="theme-btn" data-set-theme="cyberpunk" style="background-color: #0d0221;"
+                title="Cyberpunk"></button>
+            <button id="help-btn" class="theme-btn" title="How to Install">?</button>
+        </div>
+
+        <div id="help-modal" class="modal hidden">
+            <div class="modal-content">
+                <span id="close-modal">&times;</span>
+                <h2>Set as Wallpaper</h2>
+                <p><strong>Android:</strong></p>
+                <ol>
+                    <li>Install <em>Wallpaper Engine</em> or <em>Lively Wallpaper</em>.</li>
+                    <li>Select "Add" -> "Open URL".</li>
+                    <li>Paste this website's URL.</li>
+                </ol>
+                <p><em>Theme selection is saved automatically!</em></p>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
