@@ -214,4 +214,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Init
     initTheme();
     updateLink(); // Set initial link
+
+    // Auto-refresh at midnight
+    let lastDay = new Date().getDate();
+    setInterval(() => {
+        const currentDay = new Date().getDate();
+        if (currentDay !== lastDay) {
+            lastDay = currentDay;
+            console.log('Date changed, updating wallpaper...');
+            drawWallpaper();
+        }
+    }, 60000); // Check every minute
 });
