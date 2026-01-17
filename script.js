@@ -176,6 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'i15pm': '1290x2796',
                 'i15': '1179x2556',
                 's24': '1080x2340',
+                'fhdplus': '1080x2400',
                 'op12': '1440x3216',
                 'x1v': '1644x3840',
                 'hd': '720x1280',

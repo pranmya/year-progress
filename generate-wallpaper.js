@@ -10,6 +10,7 @@ const RESOLUTIONS = [
     { name: 'iPhone 15 Pro Max', w: 1290, h: 2796, id: 'i15pm' },
     { name: 'iPhone 15/14', w: 1179, h: 2556, id: 'i15' },
     { name: 'Samsung S23/24', w: 1080, h: 2340, id: 's24' },
+    { name: 'FHD+ Extra Tall', w: 1080, h: 2400, id: 'fhdplus' },
     { name: 'OnePlus 11/12', w: 1440, h: 3216, id: 'op12' },
     { name: 'Sony Xperia 1 V', w: 1644, h: 3840, id: 'x1v' }, // 4K
     { name: 'Generic HD', w: 720, h: 1280, id: 'hd' },
