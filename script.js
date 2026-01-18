@@ -44,18 +44,52 @@ document.addEventListener('DOMContentLoaded', () => {
         const daysLeft = totalDays - dayOfYear;
         const progressPercent = Math.floor((dayOfYear / totalDays) * 100);
 
-        // 3. Draw Grid
+        // --- LAYOUT: TEXT AT TOP, GRID BELOW ---
+        ctx.textAlign = 'center';
+
+        const words = [
+            "Focus", "Grind", "Patience", "Execute", "Vision", "Believe", "Create", "Impact",
+            "Stoic", "Calm", "Power", "Silence", "Action", "Build", "Grow", "Learn",
+            "Mastery", "Discipline", "Courage", "Honor", "Strength", "Wisdom", "Trust", "Flow",
+            "Energy", "Momentum", "Rise", "Shine", "Win", "Conquer", "Lead", "Inspire",
+            "Dream", "Hustle", "Passion", "Purpose", "Drive", "Spirit", "Soul", "Heart",
+            "Bold", "Brave", "Peak", "Zen", "Alive", "Now", "Begin", "Finish"
+        ];
+        const quote = words[dayOfYear % words.length].toUpperCase();
+        const dateString = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
+        const timeString = now.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        }).toUpperCase();
+
+        // 1. Draw Text (Top)
+        const topPadding = 180;
+
+        ctx.font = '700 80px sans-serif';
+        ctx.fillStyle = theme.accent;
+        ctx.fillText(quote, WIDTH / 2, topPadding);
+
+        const timeY = topPadding + 70;
+        ctx.font = '600 50px sans-serif';
+        ctx.fillStyle = '#bbbbbb';
+        ctx.fillText(timeString, WIDTH / 2, timeY);
+
+        const statsY = timeY + 50;
+        ctx.font = '500 30px sans-serif';
+        ctx.fillStyle = theme.text;
+        ctx.fillText(`${dateString}  •  ${daysLeft}D LEFT  •  ${progressPercent}%`, WIDTH / 2, statsY);
+
+        // 2. Draw Grid (Below Text)
+        const gridStartY = statsY + 80;
+
         const cols = 15;
         const gridWidth = WIDTH - (MARGIN * 2);
         const dotSize = (gridWidth - ((cols - 1) * GAP)) / cols;
         const radius = dotSize / 2;
 
-        const totalRows = Math.ceil(totalDays / cols);
-        const gridHeight = (totalRows * dotSize) + ((totalRows - 1) * GAP);
-
-        // Center Grid Vertically
         let xStart = MARGIN + radius;
-        let yStart = (HEIGHT - gridHeight) / 2;
+        let yStart = gridStartY;
 
         for (let i = 1; i <= totalDays; i++) {
             const colIndex = (i - 1) % cols;
@@ -81,44 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.fill();
             }
         }
-
-        // 4. Draw Bottom Text
-        ctx.textAlign = 'center';
-
-        const words = [
-            "Focus", "Grind", "Patience", "Execute", "Vision", "Believe", "Create", "Impact",
-            "Stoic", "Calm", "Power", "Silence", "Action", "Build", "Grow", "Learn",
-            "Mastery", "Discipline", "Courage", "Honor", "Strength", "Wisdom", "Trust", "Flow",
-            "Energy", "Momentum", "Rise", "Shine", "Win", "Conquer", "Lead", "Inspire",
-            "Dream", "Hustle", "Passion", "Purpose", "Drive", "Spirit", "Soul", "Heart",
-            "Bold", "Brave", "Peak", "Zen", "Alive", "Now", "Begin", "Finish"
-        ];
-        const quote = words[dayOfYear % words.length].toUpperCase();
-        const dateString = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
-        const timeString = now.toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true
-        }).toUpperCase();
-
-        const textYStart = yStart + gridHeight + 50; // Shifted UP
-
-        // 1. Draw Quote
-        ctx.font = '700 80px sans-serif';
-        ctx.fillStyle = theme.accent;
-        ctx.fillText(quote, WIDTH / 2, textYStart);
-
-        // 2. Draw Time
-        const timeY = textYStart + 70;
-        ctx.font = '600 50px sans-serif';
-        ctx.fillStyle = '#bbbbbb';
-        ctx.fillText(timeString, WIDTH / 2, timeY);
-
-        // 3. Draw Stats
-        const statsY = timeY + 50;
-        ctx.font = '500 30px sans-serif';
-        ctx.fillStyle = theme.text;
-        ctx.fillText(`${dateString}  •  ${daysLeft}D LEFT  •  ${progressPercent}%`, WIDTH / 2, statsY);
     }
 
     // --- UI Logic ---

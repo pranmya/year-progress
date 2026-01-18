@@ -66,19 +66,66 @@ function generateWallpaper(resKey, width, height) {
     const daysLeft = totalDays - dayOfYear;
     const progressPercent = Math.floor((dayOfYear / totalDays) * 100);
 
-    // 3. Draw Grid
-    const renderCols = 15;
+    // --- LAYOUT: TEXT AT TOP, GRID BELOW ---
 
+    // 1. Draw Text (Top)
+    ctx.textAlign = 'center';
+
+    // Quotes / Word of the Day
+    const words = [
+        "Focus", "Grind", "Patience", "Execute", "Vision", "Believe", "Create", "Impact",
+        "Stoic", "Calm", "Power", "Silence", "Action", "Build", "Grow", "Learn",
+        "Mastery", "Discipline", "Courage", "Honor", "Strength", "Wisdom", "Trust", "Flow",
+        "Energy", "Momentum", "Rise", "Shine", "Win", "Conquer", "Lead", "Inspire",
+        "Dream", "Hustle", "Passion", "Purpose", "Drive", "Spirit", "Soul", "Heart",
+        "Bold", "Brave", "Peak", "Zen", "Alive", "Now", "Begin", "Finish"
+    ];
+    const quote = words[dayOfYear % words.length].toUpperCase();
+
+    // Date & Time
+    const dateString = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
+    const timeString = now.toLocaleTimeString('en-US', {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    }).toUpperCase();
+
+    // Text Position (Top)
+    const topPadding = 180 * scale;
+
+    // A. Quote
+    ctx.font = `700 ${80 * scale}px sans-serif`;
+    ctx.fillStyle = theme.accent;
+    ctx.fillText(quote, width / 2, topPadding);
+
+    // B. Time
+    const timeY = topPadding + (70 * scale);
+    ctx.font = `600 ${50 * scale}px sans-serif`;
+    ctx.fillStyle = '#bbbbbb';
+    ctx.fillText(timeString, width / 2, timeY);
+
+    // C. Stats
+    const statsY = timeY + (50 * scale);
+    ctx.font = `500 ${30 * scale}px sans-serif`;
+    ctx.fillStyle = theme.text;
+    ctx.fillText(`${dateString}  •  ${daysLeft}D LEFT  •  ${progressPercent}%`, width / 2, statsY);
+
+    // --- GRID (Positioned BELOW Text) ---
+    // Calculate Grid Start Y based on text end
+    const gridStartY = statsY + (80 * scale);
+
+    const renderCols = 15;
     const gridWidth = width - (MARGIN * 2);
     const dotSize = (gridWidth - ((renderCols - 1) * GAP)) / renderCols;
     const radius = dotSize / 2;
 
     const totalRows = Math.ceil(totalDays / renderCols);
-    const gridHeight = (totalRows * dotSize) + ((totalRows - 1) * GAP);
 
+    // Center Grid Horizontally (Standard)
     let xStart = MARGIN + radius;
-    // Center Grid Vertically
-    let yStart = (height - gridHeight) / 2;
+    // Set Grid Vertically
+    let yStart = gridStartY;
 
     for (let i = 1; i <= totalDays; i++) {
         const colIndex = (i - 1) % renderCols;
@@ -98,58 +145,12 @@ function generateWallpaper(resKey, width, height) {
             // Today
             ctx.fillStyle = theme.dotToday;
             ctx.fill();
-            // No glow/ring, just flat color based on image
         } else {
             // Future
-            ctx.fillStyle = theme.dotEmpty; // Using fill instead of stroke for "dot" look
+            ctx.fillStyle = theme.dotEmpty;
             ctx.fill();
         }
     }
-
-    // 4. Draw Bottom Text
-    ctx.textAlign = 'center';
-
-    // Quotes / Word of the Day (1-2 words max)
-    const words = [
-        "Focus", "Grind", "Patience", "Execute", "Vision", "Believe", "Create", "Impact",
-        "Stoic", "Calm", "Power", "Silence", "Action", "Build", "Grow", "Learn",
-        "Mastery", "Discipline", "Courage", "Honor", "Strength", "Wisdom", "Trust", "Flow",
-        "Energy", "Momentum", "Rise", "Shine", "Win", "Conquer", "Lead", "Inspire",
-        "Dream", "Hustle", "Passion", "Purpose", "Drive", "Spirit", "Soul", "Heart",
-        "Bold", "Brave", "Peak", "Zen", "Alive", "Now", "Begin", "Finish"
-    ];
-    // Pick word based on dayOfYear so it's consistent for everyone that day
-    const quote = words[dayOfYear % words.length].toUpperCase();
-
-    // Date & Time (IST)
-    const dateString = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
-    // Note: This shows generation time
-    const timeString = now.toLocaleTimeString('en-US', {
-        timeZone: 'Asia/Kolkata',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-    }).toUpperCase();
-
-    // Moving text block UP to avoid app drawer overlap by roughly 70px
-    const textYStart = yStart + gridHeight + (50 * scale);
-
-    // 1. Draw Quote (Orange, Large)
-    ctx.font = `700 ${80 * scale}px sans-serif`;
-    ctx.fillStyle = theme.accent;
-    ctx.fillText(quote, width / 2, textYStart);
-
-    // 2. Draw Time (White/Grey, Medium) - NEW LINE
-    const timeY = textYStart + (70 * scale);
-    ctx.font = `600 ${50 * scale}px sans-serif`;
-    ctx.fillStyle = '#bbbbbb';
-    ctx.fillText(timeString, width / 2, timeY);
-
-    // 3. Draw Stats (Grey, Small) - Bottom Line
-    const statsY = timeY + (50 * scale);
-    ctx.font = `500 ${30 * scale}px sans-serif`;
-    ctx.fillStyle = theme.text;
-    ctx.fillText(`${dateString}  •  ${daysLeft}D LEFT  •  ${progressPercent}%`, width / 2, statsY);
 
     // Save to file
     // If default, save as wallpaper.png, else wallpaper-resolution.png
