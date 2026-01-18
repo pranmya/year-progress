@@ -82,14 +82,8 @@ function generateWallpaper(resKey, width, height) {
     ];
     const quote = words[dayOfYear % words.length].toUpperCase();
 
-    // Date & Time
+    // Date (Time removed to prevent stuck clock)
     const dateString = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
-    const timeString = now.toLocaleTimeString('en-US', {
-        timeZone: 'Asia/Kolkata',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-    }).toUpperCase();
 
     // Text Position (Top)
     const topPadding = 320 * scale; // Moved down significantly to clear status bar/punch-hole
@@ -99,14 +93,8 @@ function generateWallpaper(resKey, width, height) {
     ctx.fillStyle = theme.accent;
     ctx.fillText(quote, width / 2, topPadding);
 
-    // B. Time
-    const timeY = topPadding + (70 * scale);
-    ctx.font = `600 ${50 * scale}px sans-serif`;
-    ctx.fillStyle = '#bbbbbb';
-    ctx.fillText(timeString, width / 2, timeY);
-
-    // C. Stats
-    const statsY = timeY + (50 * scale);
+    // B. Stats (Moved up to replace Time)
+    const statsY = topPadding + (60 * scale);
     ctx.font = `500 ${30 * scale}px sans-serif`;
     ctx.fillStyle = theme.text;
     ctx.fillText(`${dateString}  •  ${daysLeft}D LEFT  •  ${progressPercent}%`, width / 2, statsY);

@@ -174,14 +174,21 @@ document.addEventListener('DOMContentLoaded', () => {
     drawWallpaper();
     updateLink();
 
-    // Auto-refresh at midnight
+    // Auto-refresh: Live Clock (1 second)
     let lastDay = new Date().getDate();
     setInterval(() => {
-        const currentDay = new Date().getDate();
+        const now = new Date();
+        const currentDay = now.getDate();
+
+        // If date changed, redraw everything (new dot)
         if (currentDay !== lastDay) {
             lastDay = currentDay;
             console.log('Date changed, updating wallpaper...');
             drawWallpaper();
         }
-    }, 60000);
+        // If just time changed, redraw to update clock
+        else {
+            drawWallpaper();
+        }
+    }, 1000);
 });
