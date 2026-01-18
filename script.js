@@ -84,27 +84,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 4. Draw Bottom Text
         ctx.textAlign = 'center';
-        ctx.font = '500 40px sans-serif';
 
-        const textY = yStart + gridHeight + 100;
+        const words = [
+            "Focus", "Grind", "Patience", "Execute", "Vision", "Believe", "Create", "Impact",
+            "Stoic", "Calm", "Power", "Silence", "Action", "Build", "Grow", "Learn",
+            "Mastery", "Discipline", "Courage", "Honor", "Strength", "Wisdom", "Trust", "Flow",
+            "Energy", "Momentum", "Rise", "Shine", "Win", "Conquer", "Lead", "Inspire",
+            "Dream", "Hustle", "Passion", "Purpose", "Drive", "Spirit", "Soul", "Heart",
+            "Bold", "Brave", "Peak", "Zen", "Alive", "Now", "Begin", "Finish"
+        ];
+        const quote = words[dayOfYear % words.length].toUpperCase();
+        const dateString = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
 
-        const part1 = `${daysLeft}d left`;
-        const part2 = `  •  ${progressPercent}%`;
+        const textYStart = yStart + gridHeight + 120;
 
-        const w1 = ctx.measureText(part1).width;
-        const w2 = ctx.measureText(part2).width;
-        const totalW = w1 + w2;
-
-        let currentX = (WIDTH / 2) - (totalW / 2);
-
-        // Part 1 (Orange)
+        // 1. Draw Quote
+        ctx.font = '700 80px sans-serif';
         ctx.fillStyle = theme.accent;
-        ctx.textAlign = 'left';
-        ctx.fillText(part1, currentX, textY);
+        ctx.fillText(quote, WIDTH / 2, textYStart);
 
-        // Part 2 (Grey)
+        // 2. Draw Stats
+        const statsY = textYStart + 60;
+        ctx.font = '500 35px sans-serif';
         ctx.fillStyle = theme.text;
-        ctx.fillText(part2, currentX + w1, textY);
+        ctx.fillText(`${dateString}  •  ${daysLeft}D LEFT  •  ${progressPercent}%`, WIDTH / 2, statsY);
     }
 
     // --- UI Logic ---

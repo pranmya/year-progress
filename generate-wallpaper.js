@@ -107,34 +107,35 @@ function generateWallpaper(resKey, width, height) {
     }
 
     // 4. Draw Bottom Text
-    // Format: "347d left · 4%"
     ctx.textAlign = 'center';
-    const fontSize = 40 * scale;
-    ctx.font = `500 ${fontSize}px sans-serif`; // Medium weight
 
-    const textY = yStart + gridHeight + (100 * scale); // 100px below grid
+    // Quotes / Word of the Day (1-2 words max)
+    const words = [
+        "Focus", "Grind", "Patience", "Execute", "Vision", "Believe", "Create", "Impact",
+        "Stoic", "Calm", "Power", "Silence", "Action", "Build", "Grow", "Learn",
+        "Mastery", "Discipline", "Courage", "Honor", "Strength", "Wisdom", "Trust", "Flow",
+        "Energy", "Momentum", "Rise", "Shine", "Win", "Conquer", "Lead", "Inspire",
+        "Dream", "Hustle", "Passion", "Purpose", "Drive", "Spirit", "Soul", "Heart",
+        "Bold", "Brave", "Peak", "Zen", "Alive", "Now", "Begin", "Finish"
+    ];
+    // Pick word based on dayOfYear so it's consistent for everyone that day
+    const quote = words[dayOfYear % words.length].toUpperCase();
 
-    // Simplification: Draw entire string in Orange or mix?
-    // Image had: "347d left" (Orange) " · 4%" (Grey)
-    // Let's try to measure and draw separately.
+    // Date String (e.g. "JAN 18")
+    const dateString = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
 
-    const part1 = `${daysLeft}d left`;
-    const part2 = `  •  ${progressPercent}%`;
+    const textYStart = yStart + gridHeight + (120 * scale);
 
-    const w1 = ctx.measureText(part1).width;
-    const w2 = ctx.measureText(part2).width;
-    const totalW = w1 + w2;
-
-    let currentX = (width / 2) - (totalW / 2);
-
-    // Draw Part 1 (Orange)
+    // 1. Draw Quote (Orange)
+    ctx.font = `700 ${80 * scale}px sans-serif`;
     ctx.fillStyle = theme.accent;
-    ctx.textAlign = 'left';
-    ctx.fillText(part1, currentX, textY);
+    ctx.fillText(quote, width / 2, textYStart);
 
-    // Draw Part 2 (Grey)
+    // 2. Draw Stats (Grey)
+    const statsY = textYStart + (60 * scale);
+    ctx.font = `500 ${35 * scale}px sans-serif`;
     ctx.fillStyle = theme.text;
-    ctx.fillText(part2, currentX + w1, textY);
+    ctx.fillText(`${dateString}  •  ${daysLeft}D LEFT  •  ${progressPercent}%`, width / 2, statsY);
 
     // Save to file
     // If default, save as wallpaper.png, else wallpaper-resolution.png
