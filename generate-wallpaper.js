@@ -92,7 +92,7 @@ function generateWallpaper(resKey, width, height) {
     }).toUpperCase();
 
     // Text Position (Top)
-    const topPadding = 180 * scale;
+    const topPadding = 320 * scale; // Moved down significantly to clear status bar/punch-hole
 
     // A. Quote
     ctx.font = `700 ${80 * scale}px sans-serif`;

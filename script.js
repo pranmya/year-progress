@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).toUpperCase();
 
         // 1. Draw Text (Top)
-        const topPadding = 180;
+        const topPadding = 320;
 
         ctx.font = '700 80px sans-serif';
         ctx.fillStyle = theme.accent;
