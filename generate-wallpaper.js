@@ -17,14 +17,14 @@ const RESOLUTIONS = [
     { name: 'Tablet / Folding (Square-ish)', w: 2200, h: 2480, id: 'fold' }
 ];
 
-// Theme Config (Dark Default)
+// Theme Config (Minimal / User Requested)
 const theme = {
-    bg: '#0a0a0a',
-    dotEmpty: '#2a2a2a',
-    dotFilled: '#e0e0e0',
-    dotGlow: '#00f0ff',
-    text: '#e0e0e0',
-    highlight: '#ffffff'
+    bg: '#121212',        // Very dark grey
+    dotFilled: '#ffffff', // Past days: White
+    dotEmpty: '#262626',  // Future days: Dark Grey
+    dotToday: '#ff6b4a',  // Today: Orange/Coral
+    text: '#666666',      // Text: Grey
+    accent: '#ff6b4a'     // Accent text: Orange
 };
 
 function getDayOfYear(date) {
@@ -38,12 +38,10 @@ function generateWallpaper(resKey, width, height) {
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext('2d');
 
-    // Scale Logic: Adjust sizes based on resolution relative to 1080p width
+    // Scale Logic
     const scale = width / 1080;
     const MARGIN = 100 * scale;
-    const fontYearIdx = 120 * scale;
-    const fontDayIdx = 40 * scale;
-    const GAP = 15 * scale;
+    const GAP = 20 * scale; // Slightly more gap for cleaner look
 
     // 1. Fill Background
     ctx.fillStyle = theme.bg;
@@ -64,36 +62,27 @@ function generateWallpaper(resKey, width, height) {
 
     const year = now.getFullYear();
     const dayOfYear = getDayOfYear(now);
-    const totalDays = 365;
+    const totalDays = 365; // Fixed for design consistency (or 366 for leap)
+    const daysLeft = totalDays - dayOfYear;
+    const progressPercent = Math.floor((dayOfYear / totalDays) * 100);
 
-    // 3. Draw Header Text
-    ctx.textAlign = 'center';
+    // 3. Draw Grid
+    const renderCols = 15;
 
-    // Year
-    // Note: 'Inter' font might not be available in CI env, falling back to sans-serif
-    ctx.font = `bold ${fontYearIdx}px sans-serif`;
-    ctx.fillStyle = theme.highlight;
-    ctx.fillText(year, width / 2, height * 0.15); // 15% down
-
-    // Day Counter
-    ctx.font = `${fontDayIdx}px sans-serif`;
-    ctx.fillStyle = theme.text;
-    ctx.fillText(`Day ${dayOfYear} of ${totalDays}`, width / 2, height * 0.18); // 18% down
-
-    // 4. Draw Grid
-    const cols = 19;
     const gridWidth = width - (MARGIN * 2);
-
-    // dotSize calc
-    const dotSize = (gridWidth - ((cols - 1) * GAP)) / cols;
+    const dotSize = (gridWidth - ((renderCols - 1) * GAP)) / renderCols;
     const radius = dotSize / 2;
 
+    const totalRows = Math.ceil(totalDays / renderCols);
+    const gridHeight = (totalRows * dotSize) + ((totalRows - 1) * GAP);
+
     let xStart = MARGIN + radius;
-    let yStart = height * 0.25; // Start grid 25% down
+    // Center Grid Vertically
+    let yStart = (height - gridHeight) / 2;
 
     for (let i = 1; i <= totalDays; i++) {
-        const colIndex = (i - 1) % cols;
-        const rowIndex = Math.floor((i - 1) / cols);
+        const colIndex = (i - 1) % renderCols;
+        const rowIndex = Math.floor((i - 1) / renderCols);
 
         const cx = xStart + (colIndex * (dotSize + GAP));
         const cy = yStart + (rowIndex * (dotSize + GAP));
@@ -107,23 +96,45 @@ function generateWallpaper(resKey, width, height) {
             ctx.fill();
         } else if (i === dayOfYear) {
             // Today
-            ctx.fillStyle = theme.dotGlow;
-            ctx.shadowColor = theme.dotGlow;
-            ctx.shadowBlur = 40 * scale;
+            ctx.fillStyle = theme.dotToday;
             ctx.fill();
-            ctx.shadowBlur = 0;
-
-            // Highlight ring
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 2 * scale;
-            ctx.stroke();
+            // No glow/ring, just flat color based on image
         } else {
             // Future
-            ctx.strokeStyle = theme.dotEmpty;
-            ctx.lineWidth = 2 * scale;
-            ctx.stroke();
+            ctx.fillStyle = theme.dotEmpty; // Using fill instead of stroke for "dot" look
+            ctx.fill();
         }
     }
+
+    // 4. Draw Bottom Text
+    // Format: "347d left · 4%"
+    ctx.textAlign = 'center';
+    const fontSize = 40 * scale;
+    ctx.font = `500 ${fontSize}px sans-serif`; // Medium weight
+
+    const textY = yStart + gridHeight + (100 * scale); // 100px below grid
+
+    // Simplification: Draw entire string in Orange or mix?
+    // Image had: "347d left" (Orange) " · 4%" (Grey)
+    // Let's try to measure and draw separately.
+
+    const part1 = `${daysLeft}d left`;
+    const part2 = `  •  ${progressPercent}%`;
+
+    const w1 = ctx.measureText(part1).width;
+    const w2 = ctx.measureText(part2).width;
+    const totalW = w1 + w2;
+
+    let currentX = (width / 2) - (totalW / 2);
+
+    // Draw Part 1 (Orange)
+    ctx.fillStyle = theme.accent;
+    ctx.textAlign = 'left';
+    ctx.fillText(part1, currentX, textY);
+
+    // Draw Part 2 (Grey)
+    ctx.fillStyle = theme.text;
+    ctx.fillText(part2, currentX + w1, textY);
 
     // Save to file
     // If default, save as wallpaper.png, else wallpaper-resolution.png

@@ -44,7 +44,7 @@
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif, 'JetBrains Mono', 'Roboto Mono', monospace;
     min-height: 100vh;
     display: flex;
     justify-content: center;
