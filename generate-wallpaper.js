@@ -47,15 +47,16 @@ function generateWallpaper(resKey, width, height) {
     ctx.fillStyle = theme.bg;
     ctx.fillRect(0, 0, width, height);
 
-    // 2. Date Calc
-    let now = new Date();
+    // 2. Date Calc (Force IST)
+    const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
 
     // Manual Override for Testing (e.g., node generate-wallpaper.js 2026-06-01)
     const args = process.argv.slice(2);
     if (args.length > 0) {
         const testDate = new Date(args[0]);
         if (!isNaN(testDate)) {
-            now = testDate;
+            // Re-assign now if override provided
+            now.setTime(testDate.getTime());
             console.log(`[TEST MODE] Simulating date: ${now.toDateString()}`);
         }
     }
