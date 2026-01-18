@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # ✅ Use Node 18 (canvas is stable here)
       - name: Setup Node.js
@@ -53,12 +55,11 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Fix race conditions
-          git pull origin main --rebase
+
+          git pull --no-rebase --no-edit
 
           git add wallpaper*.png
           git status
 
-          git commit -m "Daily wallpaper update" || echo "No changes to commit"
+          git commit -m "Daily wallpaper update ($(date -u +'%Y-%m-%d'))" || echo "No changes to commit"
           git push
