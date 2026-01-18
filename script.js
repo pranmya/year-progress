@@ -95,17 +95,28 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
         const quote = words[dayOfYear % words.length].toUpperCase();
         const dateString = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
+        const timeString = now.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        }).toUpperCase();
 
-        const textYStart = yStart + gridHeight + 120;
+        const textYStart = yStart + gridHeight + 50; // Shifted UP
 
         // 1. Draw Quote
         ctx.font = '700 80px sans-serif';
         ctx.fillStyle = theme.accent;
         ctx.fillText(quote, WIDTH / 2, textYStart);
 
-        // 2. Draw Stats
-        const statsY = textYStart + 60;
-        ctx.font = '500 35px sans-serif';
+        // 2. Draw Time
+        const timeY = textYStart + 70;
+        ctx.font = '600 50px sans-serif';
+        ctx.fillStyle = '#bbbbbb';
+        ctx.fillText(timeString, WIDTH / 2, timeY);
+
+        // 3. Draw Stats
+        const statsY = timeY + 50;
+        ctx.font = '500 30px sans-serif';
         ctx.fillStyle = theme.text;
         ctx.fillText(`${dateString}  •  ${daysLeft}D LEFT  •  ${progressPercent}%`, WIDTH / 2, statsY);
     }

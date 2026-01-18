@@ -121,19 +121,33 @@ function generateWallpaper(resKey, width, height) {
     // Pick word based on dayOfYear so it's consistent for everyone that day
     const quote = words[dayOfYear % words.length].toUpperCase();
 
-    // Date String (e.g. "JAN 18")
+    // Date & Time (IST)
     const dateString = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
+    // Note: This shows generation time
+    const timeString = now.toLocaleTimeString('en-US', {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    }).toUpperCase();
 
-    const textYStart = yStart + gridHeight + (120 * scale);
+    // Moving text block UP to avoid app drawer overlap by roughly 70px
+    const textYStart = yStart + gridHeight + (50 * scale);
 
-    // 1. Draw Quote (Orange)
+    // 1. Draw Quote (Orange, Large)
     ctx.font = `700 ${80 * scale}px sans-serif`;
     ctx.fillStyle = theme.accent;
     ctx.fillText(quote, width / 2, textYStart);
 
-    // 2. Draw Stats (Grey)
-    const statsY = textYStart + (60 * scale);
-    ctx.font = `500 ${35 * scale}px sans-serif`;
+    // 2. Draw Time (White/Grey, Medium) - NEW LINE
+    const timeY = textYStart + (70 * scale);
+    ctx.font = `600 ${50 * scale}px sans-serif`;
+    ctx.fillStyle = '#bbbbbb';
+    ctx.fillText(timeString, width / 2, timeY);
+
+    // 3. Draw Stats (Grey, Small) - Bottom Line
+    const statsY = timeY + (50 * scale);
+    ctx.font = `500 ${30 * scale}px sans-serif`;
     ctx.fillStyle = theme.text;
     ctx.fillText(`${dateString}  •  ${daysLeft}D LEFT  •  ${progressPercent}%`, width / 2, statsY);
 
