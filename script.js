@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function drawWallpaper() {
-        const ctx = canvas.getContext('2d');
         const scale = 1;
         const MARGIN = 100;
         const GAP = 20;
@@ -78,99 +77,101 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.fill();
             } else {
                 // Future
+                ctx.fillStyle = theme.dotEmpty;
+                ctx.fill();
+            }
+        }
 
-                function setTheme(themeName) {
-                    currentTheme = themeName;
-                    document.body.setAttribute('data-theme', themeName);
-                    localStorage.setItem('year-progress-theme', themeName);
+        // 4. Draw Bottom Text
+        ctx.textAlign = 'center';
+        ctx.font = '500 40px sans-serif';
 
-                    // Update Buttons
-                    document.querySelectorAll('.theme-btn').forEach(btn => {
-                        if (btn.dataset.setTheme === themeName) {
-                            btn.classList.add('active');
-                        } else {
-                            btn.classList.remove('active');
-                        }
-                    });
+        const textY = yStart + gridHeight + 100;
 
-                    // Redraw Canvas
-                    drawWallpaper();
-                }
+        const part1 = `${daysLeft}d left`;
+        const part2 = `  •  ${progressPercent}%`;
 
-                // --- UI Logic ---
-                const resolutionSelect = document.getElementById('resolution-select');
-                const generatedLinkInput = document.getElementById('generated-link');
-                const copyBtn = document.getElementById('copy-btn');
-                const guideBtn = document.getElementById('toggle-guide-btn');
-                const guideModal = document.getElementById('guide-modal');
-                const closeModal = document.getElementById('close-modal');
+        const w1 = ctx.measureText(part1).width;
+        const w2 = ctx.measureText(part2).width;
+        const totalW = w1 + w2;
 
-                // Base Repo URL (Adjust user if needed, but this uses the current one)
-                const BASE_URL = 'https://raw.githubusercontent.com/pranmya/year-progress/main/';
+        let currentX = (WIDTH / 2) - (totalW / 2);
 
-                function updateLink() {
-                    const res = resolutionSelect.value;
-                    let filename = 'wallpaper.png';
+        // Part 1 (Orange)
+        ctx.fillStyle = theme.accent;
+        ctx.textAlign = 'left';
+        ctx.fillText(part1, currentX, textY);
 
-                    if (res !== 'default') {
-                        const selectedOpt = resolutionSelect.options[resolutionSelect.selectedIndex];
-                        // Format: "Samsung S24 Ultra (1440x3120)"
-                        // Use ID map from option value to construct filename
-                        // Map matches generate-wallpaper.js IDs
-                        const resMap = {
-                            's24u': '1440x3120',
-                            'nz8p': '1344x2992',
-                            'i15pm': '1290x2796',
-                            'i15': '1179x2556',
-                            's24': '1080x2340',
-                            'fhdplus': '1080x2400',
-                            'op12': '1440x3216',
-                            'x1v': '1644x3840',
-                            'hd': '720x1280',
-                            'fold': '2200x2480'
-                        };
+        // Part 2 (Grey)
+        ctx.fillStyle = theme.text;
+        ctx.fillText(part2, currentX + w1, textY);
+    }
 
-                        if (resMap[res]) {
-                            filename = `wallpaper-${resMap[res]}.png`;
-                        }
-                    }
+    // --- UI Logic ---
+    const resolutionSelect = document.getElementById('resolution-select');
+    const generatedLinkInput = document.getElementById('generated-link');
+    const copyBtn = document.getElementById('copy-btn');
+    const guideBtn = document.getElementById('toggle-guide-btn');
+    const guideModal = document.getElementById('guide-modal');
+    const closeModal = document.getElementById('close-modal');
 
-                    generatedLinkInput.value = BASE_URL + filename;
-                }
+    // Base Repo URL
+    const BASE_URL = 'https://raw.githubusercontent.com/pranmya/year-progress/main/';
 
-                resolutionSelect.addEventListener('change', updateLink);
+    function updateLink() {
+        const res = resolutionSelect.value;
+        let filename = 'wallpaper.png';
 
-                copyBtn.addEventListener('click', () => {
-                    generatedLinkInput.select();
-                    document.execCommand('copy'); // Legacy but reliable
-                    copyBtn.textContent = 'Copied!';
-                    setTimeout(() => copyBtn.textContent = 'Copy', 2000);
-                });
+        if (res !== 'default') {
+            const resMap = {
+                's24u': '1440x3120',
+                'nz8p': '1344x2992',
+                'i15pm': '1290x2796',
+                'i15': '1179x2556',
+                's24': '1080x2340',
+                'fhdplus': '1080x2400',
+                'op12': '1440x3216',
+                'x1v': '1644x3840',
+                'hd': '720x1280',
+                'fold': '2200x2480'
+            };
 
-                // Guide Modal
-                guideBtn.addEventListener('click', () => guideModal.classList.remove('hidden'));
-                closeModal.addEventListener('click', () => guideModal.classList.add('hidden'));
-                window.addEventListener('click', (e) => {
-                    if (e.target === guideModal) guideModal.classList.add('hidden');
-                });
+            if (resMap[res]) {
+                filename = `wallpaper-${resMap[res]}.png`;
+            }
+        }
 
-                // Theme Buttons
-                document.querySelectorAll('.theme-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => setTheme(e.target.dataset.setTheme));
-                });
+        generatedLinkInput.value = BASE_URL + filename;
+    }
 
-                // Init
-                initTheme();
-                updateLink(); // Set initial link
+    resolutionSelect.addEventListener('change', updateLink);
 
-                // Auto-refresh at midnight
-                let lastDay = new Date().getDate();
-                setInterval(() => {
-                    const currentDay = new Date().getDate();
-                    if (currentDay !== lastDay) {
-                        lastDay = currentDay;
-                        console.log('Date changed, updating wallpaper...');
-                        drawWallpaper();
-                    }
-                }, 60000); // Check every minute
-            });
+    copyBtn.addEventListener('click', () => {
+        generatedLinkInput.select();
+        document.execCommand('copy');
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy', 2000);
+    });
+
+    // Guide Modal
+    guideBtn.addEventListener('click', () => guideModal.classList.remove('hidden'));
+    closeModal.addEventListener('click', () => guideModal.classList.add('hidden'));
+    window.addEventListener('click', (e) => {
+        if (e.target === guideModal) guideModal.classList.add('hidden');
+    });
+
+    // Init
+    drawWallpaper();
+    updateLink();
+
+    // Auto-refresh at midnight
+    let lastDay = new Date().getDate();
+    setInterval(() => {
+        const currentDay = new Date().getDate();
+        if (currentDay !== lastDay) {
+            lastDay = currentDay;
+            console.log('Date changed, updating wallpaper...');
+            drawWallpaper();
+        }
+    }, 60000);
+});
