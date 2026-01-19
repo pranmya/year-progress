@@ -6,14 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const WIDTH = 1080;
     const HEIGHT = 1920;
 
-    // Theme Config (Minimal)
+    // Theme Config (Minimal / User Requested)
     const theme = {
-        bg: '#121212',
-        dotFilled: '#ffffff',
-        dotEmpty: '#262626',
-        dotToday: '#ff6b4a',
-        text: '#666666',
-        accent: '#ff6b4a'
+        bg: '#1b1410',        // Dark Espresso
+        dotFilled: '#6f4e37', // Coffee Bean
+        dotEmpty: '#2b201a',  // Dark Roast
+        dotToday: '#d4a373',  // Latte Foam / Cream
+        text: '#a68b7c',      // Warm Grey/Brown
+        accent: '#d4a373'     // Latte Accent
     };
 
     // Setup Canvas

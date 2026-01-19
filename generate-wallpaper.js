@@ -18,13 +18,14 @@ const RESOLUTIONS = [
 ];
 
 // Theme Config (Minimal / User Requested)
+// Theme Config (Minimal / User Requested)
 const theme = {
-    bg: '#121212',        // Very dark grey
-    dotFilled: '#ffffff', // Past days: White
-    dotEmpty: '#262626',  // Future days: Dark Grey
-    dotToday: '#ff6b4a',  // Today: Orange/Coral
-    text: '#666666',      // Text: Grey
-    accent: '#ff6b4a'     // Accent text: Orange
+    bg: '#1b1410',        // Dark Espresso
+    dotFilled: '#6f4e37', // Coffee Bean
+    dotEmpty: '#2b201a',  // Dark Roast
+    dotToday: '#d4a373',  // Latte Foam / Cream
+    text: '#a68b7c',      // Warm Grey/Brown
+    accent: '#d4a373'     // Latte Accent
 };
 
 function getDayOfYear(date) {
@@ -99,7 +100,7 @@ function generateWallpaper(resKey, width, height) {
     const dateString = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
 
     // Text Position (Top)
-    const topPadding = 320 * scale; // Moved down significantly to clear status bar/punch-hole
+    const topPadding = 360 * scale; // Moved down further to clear status bar/punch-hole
 
     // A. Quote
     ctx.font = `700 ${80 * scale}px sans-serif`;
