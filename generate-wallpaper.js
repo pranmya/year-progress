@@ -74,12 +74,24 @@ function generateWallpaper(resKey, width, height) {
 
     // Quotes / Word of the Day
     const words = [
-        "Focus", "Grind", "Patience", "Execute", "Vision", "Believe", "Create", "Impact",
-        "Stoic", "Calm", "Power", "Silence", "Action", "Build", "Grow", "Learn",
-        "Mastery", "Discipline", "Courage", "Honor", "Strength", "Wisdom", "Trust", "Flow",
-        "Energy", "Momentum", "Rise", "Shine", "Win", "Conquer", "Lead", "Inspire",
-        "Dream", "Hustle", "Passion", "Purpose", "Drive", "Spirit", "Soul", "Heart",
-        "Bold", "Brave", "Peak", "Zen", "Alive", "Now", "Begin", "Finish"
+        "Execute", "Do the work", "Zero excuses", "Discipline > Motivation", "Just start", "Stay hungry",
+        "Outwork everyone", "Consistency is key", "Finish it", "Don't stop", "Commit", "Build the habit",
+        "Show up", "Hard work works", "No shortcuts", "Action over intent", "Own the day", "Stay disciplined",
+        "Win the morning", "Relentless", "Time is finite", "Don't waste it", "Now or never", "Value every second",
+        "Make it count", "Clock is ticking", "Today is the day", "Invest your time", "Don't kill time",
+        "Memento Mori", "Seize the moment", "The time is now", "Don't look back", "Focus on the present",
+        "Tomorrow isn't promised", "Live with intent", "Buy back your time", "Prioritize", "Limited edition",
+        "Tick tock", "Iterate", "Code. Commit. Push.", "Output > Input", "Stay curious", "Solve the problem",
+        "Optimize", "Build something", "Learn. Unlearn. Relearn", "Ship it", "Continuous improvement",
+        "Stay foolish", "Master the craft", "Think bigger", "Debug your life", "Quality over quantity",
+        "One line at a time", "Trust the process", "Growth mindset", "Stay technical", "Logic over emotion",
+        "Deep work", "Stay focused", "Eliminate distractions", "One task", "Silence the noise", "Focus",
+        "Be present", "Minimalism", "Less but better", "Simple but effective", "Eyes on the prize",
+        "Stay sharp", "Unwavering", "Tunnel vision", "Clarity", "Essentialism", "Quiet confidence",
+        "Inner peace", "Mindful", "Flow state", "Keep going", "Rise and grind", "Suffer now win later",
+        "Prove them wrong", "Chase greatness", "Never settle", "Earn your sleep", "Be the exception",
+        "Against all odds", "Stay humble", "Power through", "Obsessed", "Legacy", "Make them remember",
+        "The grind", "Level up", "Unstoppable", "Break the limit", "Succeed anyway", "Endure"
     ];
     const quote = words[dayOfYear % words.length].toUpperCase();
 
