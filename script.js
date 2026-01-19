@@ -8,12 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Theme Config (Minimal / User Requested)
     const theme = {
-        bg: '#1b1410',        // Dark Espresso
-        dotFilled: '#6f4e37', // Coffee Bean
-        dotEmpty: '#2b201a',  // Dark Roast
-        dotToday: '#d4a373',  // Latte Foam / Cream
-        text: '#a68b7c',      // Warm Grey/Brown
-        accent: '#d4a373'     // Latte Accent
+        bg: '#121212',        // Very dark grey
+        dotFilled: '#ffffff', // Past days: White
+        dotEmpty: '#262626',  // Future days: Dark Grey
+        dotToday: '#ff6b4a',  // Today: Orange/Coral
+        text: '#666666',      // Text: Grey
+        accent: '#ff6b4a'     // Accent text: Orange
     };
 
     // Setup Canvas
@@ -75,12 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
             hour12: true
         }).toUpperCase();
 
-        // 1. Draw Text (Top)
-        const topPadding = 320;
+        // Text Position (Top)
+        const topPadding = 380 * scale; // Moved down further (User Request)
 
-        ctx.font = '700 80px sans-serif';
+        // A. Quote
+        ctx.font = `700 ${80 * scale}px sans-serif`;
         ctx.fillStyle = theme.accent;
-        ctx.fillText(quote, WIDTH / 2, topPadding);
+        ctx.fillText(quote, width / 2, topPadding);
 
         const timeY = topPadding + 70;
         ctx.font = '600 50px sans-serif';
