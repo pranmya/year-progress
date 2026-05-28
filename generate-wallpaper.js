@@ -4,7 +4,7 @@ const path = require('path');
 
 // Common Resolutions (Width x Height)
 const RESOLUTIONS = [
-    { name: 'Default (FHD)', w: 1080, h: 1920, id: 'default' },
+    { name: 'Default (FHD+)', w: 1080, h: 2340, id: 'default' },
     { name: 'Samsung S24 Ultra', w: 1440, h: 3120, id: 's24u' },
     { name: 'Pixel 8 Pro', w: 1344, h: 2992, id: 'nz8p' },
     { name: 'iPhone 15 Pro Max', w: 1290, h: 2796, id: 'i15pm' },
@@ -102,8 +102,14 @@ function generateWallpaper(resKey, width, height) {
     // Text Position (Top)
     const topPadding = 380 * scale; // Moved down further (User Request)
 
-    // A. Quote
-    ctx.font = `700 ${80 * scale}px sans-serif`;
+    // A. Quote (Dynamic font size — shrink for long quotes)
+    const maxQuoteWidth = width - (MARGIN * 2);
+    let quoteFontSize = 80 * scale;
+    ctx.font = `700 ${quoteFontSize}px sans-serif`;
+    while (ctx.measureText(quote).width > maxQuoteWidth && quoteFontSize > 30 * scale) {
+        quoteFontSize -= 2 * scale;
+        ctx.font = `700 ${quoteFontSize}px sans-serif`;
+    }
     ctx.fillStyle = theme.accent;
     ctx.fillText(quote, width / 2, topPadding);
 
