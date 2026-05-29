@@ -60,7 +60,7 @@ RESOLUTIONS.forEach(res => {
     const centerX = width / 2;
     
     // 1. Top Section: Word
-    const wordY = 350 * scale;
+    const wordY = 420 * scale; // Moved down from 350
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
