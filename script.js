@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const availableHeightForRings = HEIGHT - dateY - (400 * scale); // 400px reserved for quote
         const centerY = dateY + (availableHeightForRings / 2.2); 
         
-        const maxRadius = Math.min(450 * scale, availableHeightForRings / 2.5);
+        const maxRadius = Math.min(410 * scale, availableHeightForRings / 2.7);
         const ringSpacing = maxRadius / 12;
         
         const currentMonth = Math.floor((dayOfYear / totalDays) * 12);

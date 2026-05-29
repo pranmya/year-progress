@@ -86,7 +86,7 @@ RESOLUTIONS.forEach(res => {
     const availableHeightForRings = height - dateY - (400 * scale); // 400px reserved for quote
     const centerY = dateY + (availableHeightForRings / 2.2); // slightly above exact center
     
-    const maxRadius = Math.min(450 * scale, availableHeightForRings / 2.5); // Ensure it fits
+    const maxRadius = Math.min(410 * scale, availableHeightForRings / 2.7); // Ensure it fits with safe margins
     const ringSpacing = maxRadius / 12;
     
     const currentMonth = Math.floor((dayOfYear / totalDays) * 12);
