@@ -67,10 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Dynamic Font Size for Word
         let wordFontSize = 80 * scale;
-        ctx.font = `700 ${wordFontSize}px sans-serif`;
+        ctx.font = `700 ${wordFontSize}px "Courier New", monospace`;
         while (ctx.measureText(word).width > WIDTH - (100 * scale) && wordFontSize > 40 * scale) {
             wordFontSize -= 2 * scale;
-            ctx.font = `700 ${wordFontSize}px sans-serif`;
+            ctx.font = `700 ${wordFontSize}px "Courier New", monospace`;
         }
         
         ctx.fillStyle = theme.accent;

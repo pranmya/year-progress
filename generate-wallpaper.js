@@ -66,10 +66,10 @@ RESOLUTIONS.forEach(res => {
     
     // Dynamic Font Size for Word (in case it's long)
     let wordFontSize = 80 * scale;
-    ctx.font = `700 ${wordFontSize}px sans-serif`;
+    ctx.font = `700 ${wordFontSize}px "Courier New", monospace`;
     while (ctx.measureText(word).width > width - (100 * scale) && wordFontSize > 40 * scale) {
         wordFontSize -= 2 * scale;
-        ctx.font = `700 ${wordFontSize}px sans-serif`;
+        ctx.font = `700 ${wordFontSize}px "Courier New", monospace`;
     }
     
     ctx.fillStyle = theme.accent;
