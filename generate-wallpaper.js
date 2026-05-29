@@ -107,13 +107,30 @@ RESOLUTIONS.forEach(res => {
     
             ctx.beginPath();
             ctx.arc(centerX, centerY, r, -Math.PI/2, -Math.PI/2 + (Math.PI * 2 * currentMonthProgress));
-            ctx.strokeStyle = theme.accent;
+            // Gradient of Time
+            const gradient = ctx.createLinearGradient(centerX - r, centerY - r, centerX + r, centerY + r);
+            gradient.addColorStop(0, '#a200ff'); // Purple
+            gradient.addColorStop(1, '#ff6b4a'); // Orange
+            ctx.strokeStyle = gradient;
             ctx.lineWidth = 6 * scale;
         } else {
             ctx.strokeStyle = theme.dotEmpty;
             ctx.lineWidth = 1.5 * scale;
         }
         ctx.stroke();
+    }
+    
+    // 3.5 Micro-Ticks for 52 Weeks
+    const outerR = maxRadius + 25 * scale;
+    const currentWeek = Math.floor((dayOfYear / totalDays) * 52);
+    for(let w=0; w<52; w++) {
+        const angle = -Math.PI/2 + (Math.PI * 2 * (w / 52));
+        const x = centerX + outerR * Math.cos(angle);
+        const y = centerY + outerR * Math.sin(angle);
+        ctx.beginPath();
+        ctx.arc(x, y, 2.5 * scale, 0, Math.PI * 2);
+        ctx.fillStyle = w <= currentWeek ? theme.dotFilled : theme.dotEmpty;
+        ctx.fill();
     }
     
     // 4. Quote Section
