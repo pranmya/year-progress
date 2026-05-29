@@ -29,9 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function drawWallpaper() {
         const scale = 1;
-        const MARGIN = 100;
-        const GAP = 20;
-
+        
         // 1. Fill Background
         ctx.fillStyle = theme.bg;
         ctx.fillRect(0, 0, WIDTH, HEIGHT);
@@ -40,94 +38,118 @@ document.addEventListener('DOMContentLoaded', () => {
         const now = new Date();
         const year = now.getFullYear();
         const dayOfYear = getDayOfYear(now);
-        const totalDays = 365;
+        const totalDays = (year % 4 === 0) ? 366 : 365;
         const daysLeft = totalDays - dayOfYear;
-        const progressPercent = Math.floor((dayOfYear / totalDays) * 100);
+        const progressPercent = Math.round((dayOfYear / totalDays) * 100);
 
-        // --- LAYOUT: TEXT AT TOP, GRID BELOW ---
+        // Pick Word & Quote
+        // Using window.WORDS and window.QUOTES loaded from data.js
+        const wordsArr = window.WORDS || ["RELENTLESS"];
+        const quotesArr = window.QUOTES || [{text: "Fallback quote.", author: "System"}];
+        
+        const wordIndex = (dayOfYear - 1) % wordsArr.length;
+        const word = wordsArr[wordIndex].toUpperCase();
+
+        const quoteIndex = Math.floor((dayOfYear - 1) / 2) % quotesArr.length;
+        const quoteObj = quotesArr[quoteIndex];
+        const quoteText = quoteObj.text;
+        const authorText = `— ${quoteObj.author}`;
+
+        const dateString = `${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase()}  •  ${daysLeft}D LEFT  •  ${progressPercent}%`;
+
+        // Layout Parameters
+        const centerX = WIDTH / 2;
+
+        // 1. Top Section: Word
+        const wordY = 350 * scale;
         ctx.textAlign = 'center';
-
-        const words = [
-            "Execute", "Do the work", "Zero excuses", "Discipline > Motivation", "Just start", "Stay hungry",
-            "Outwork everyone", "Consistency is key", "Finish it", "Don't stop", "Commit", "Build the habit",
-            "Show up", "Hard work works", "No shortcuts", "Action over intent", "Own the day", "Stay disciplined",
-            "Win the morning", "Relentless", "Time is finite", "Don't waste it", "Now or never", "Value every second",
-            "Make it count", "Clock is ticking", "Today is the day", "Invest your time", "Don't kill time",
-            "Memento Mori", "Seize the moment", "The time is now", "Don't look back", "Focus on the present",
-            "Tomorrow isn't promised", "Live with intent", "Buy back your time", "Prioritize", "Limited edition",
-            "Tick tock", "Iterate", "Code. Commit. Push.", "Output > Input", "Stay curious", "Solve the problem",
-            "Optimize", "Build something", "Learn. Unlearn. Relearn", "Ship it", "Continuous improvement",
-            "Stay foolish", "Master the craft", "Think bigger", "Debug your life", "Quality over quantity",
-            "One line at a time", "Trust the process", "Growth mindset", "Stay technical", "Logic over emotion",
-            "Deep work", "Stay focused", "Eliminate distractions", "One task", "Silence the noise", "Focus",
-            "Be present", "Minimalism", "Less but better", "Simple but effective", "Eyes on the prize",
-            "Stay sharp", "Unwavering", "Tunnel vision", "Clarity", "Essentialism", "Quiet confidence",
-            "Inner peace", "Mindful", "Flow state", "Keep going", "Rise and grind", "Suffer now win later",
-            "Prove them wrong", "Chase greatness", "Never settle", "Earn your sleep", "Be the exception",
-            "Against all odds", "Stay humble", "Power through", "Obsessed", "Legacy", "Make them remember",
-            "The grind", "Level up", "Unstoppable", "Break the limit", "Succeed anyway", "Endure"
-        ];
-        const quote = words[dayOfYear % words.length].toUpperCase();
-        const dateString = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
-        const timeString = now.toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true
-        }).toUpperCase();
-
-        // Text Position (Top)
-        const topPadding = 380 * scale; // Moved down further (User Request)
-
-        // A. Quote
-        ctx.font = `700 ${80 * scale}px sans-serif`;
+        ctx.textBaseline = 'middle';
+        
+        // Dynamic Font Size for Word
+        let wordFontSize = 80 * scale;
+        ctx.font = `700 ${wordFontSize}px sans-serif`;
+        while (ctx.measureText(word).width > WIDTH - (100 * scale) && wordFontSize > 40 * scale) {
+            wordFontSize -= 2 * scale;
+            ctx.font = `700 ${wordFontSize}px sans-serif`;
+        }
+        
         ctx.fillStyle = theme.accent;
-        ctx.fillText(quote, width / 2, topPadding);
+        ctx.fillText(word, centerX, wordY);
 
-        const timeY = topPadding + 70;
-        ctx.font = '600 50px sans-serif';
-        ctx.fillStyle = '#bbbbbb';
-        ctx.fillText(timeString, WIDTH / 2, timeY);
-
-        const statsY = timeY + 50;
-        ctx.font = '500 30px sans-serif';
+        // 2. Date String
+        const dateY = wordY + 80 * scale;
+        ctx.font = `500 ${30 * scale}px sans-serif`;
         ctx.fillStyle = theme.text;
-        ctx.fillText(`${dateString}  •  ${daysLeft}D LEFT  •  ${progressPercent}%`, WIDTH / 2, statsY);
+        ctx.fillText(dateString, centerX, dateY);
 
-        // 2. Draw Grid (Below Text)
-        const gridStartY = statsY + 80;
-
-        const cols = 15;
-        const gridWidth = WIDTH - (MARGIN * 2);
-        const dotSize = (gridWidth - ((cols - 1) * GAP)) / cols;
-        const radius = dotSize / 2;
-
-        let xStart = MARGIN + radius;
-        let yStart = gridStartY;
-
-        for (let i = 1; i <= totalDays; i++) {
-            const colIndex = (i - 1) % cols;
-            const rowIndex = Math.floor((i - 1) / cols);
-
-            const cx = xStart + (colIndex * (dotSize + GAP));
-            const cy = yStart + (rowIndex * (dotSize + GAP));
-
+        // 3. Rings of Time
+        const availableHeightForRings = HEIGHT - dateY - (400 * scale); // 400px reserved for quote
+        const centerY = dateY + (availableHeightForRings / 2.2); 
+        
+        const maxRadius = Math.min(450 * scale, availableHeightForRings / 2.5);
+        const ringSpacing = maxRadius / 12;
+        
+        const currentMonth = Math.floor((dayOfYear / totalDays) * 12);
+        const currentMonthProgress = ((dayOfYear / totalDays) * 12) - currentMonth;
+        
+        for(let i=0; i<12; i++) {
+            const r = (i + 1) * ringSpacing;
             ctx.beginPath();
-            ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-
-            if (i < dayOfYear) {
-                // Past
-                ctx.fillStyle = theme.dotFilled;
-                ctx.fill();
-            } else if (i === dayOfYear) {
-                // Today
-                ctx.fillStyle = theme.dotToday;
-                ctx.fill();
+            ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
+            
+            if (i < currentMonth) {
+                ctx.strokeStyle = theme.dotFilled;
+                ctx.lineWidth = 4 * scale;
+            } else if (i === currentMonth) {
+                ctx.strokeStyle = theme.dotEmpty;
+                ctx.lineWidth = 4 * scale;
+                ctx.stroke();
+        
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, r, -Math.PI/2, -Math.PI/2 + (Math.PI * 2 * currentMonthProgress));
+                ctx.strokeStyle = theme.accent;
+                ctx.lineWidth = 6 * scale;
             } else {
-                // Future
-                ctx.fillStyle = theme.dotEmpty;
-                ctx.fill();
+                ctx.strokeStyle = theme.dotEmpty;
+                ctx.lineWidth = 1.5 * scale;
+            }
+            ctx.stroke();
+        }
+
+        // 4. Quote Section
+        const quoteY1 = centerY + maxRadius + 120 * scale;
+        
+        // Quote Word Wrapping
+        ctx.font = `italic 400 ${36 * scale}px Georgia, serif`;
+        const qWords = quoteText.split(' ');
+        let line = '"';
+        let lines = [];
+        const maxQuoteWidth = WIDTH - (120 * scale);
+        
+        for (let n = 0; n < qWords.length; n++) {
+            const testLine = line + qWords[n] + ' ';
+            const metrics = ctx.measureText(testLine);
+            if (metrics.width > maxQuoteWidth && n > 0) {
+                lines.push(line.trim());
+                line = qWords[n] + ' ';
+            } else {
+                line = testLine;
             }
         }
+        lines.push(line.trim() + '"');
+        
+        ctx.fillStyle = theme.dotFilled;
+        let currentQuoteY = quoteY1;
+        lines.forEach(l => {
+            ctx.fillText(l, centerX, currentQuoteY);
+            currentQuoteY += 50 * scale;
+        });
+        
+        // Author
+        const authorY = currentQuoteY + 30 * scale;
+        ctx.font = `500 ${24 * scale}px sans-serif`;
+        ctx.fillStyle = theme.text;
+        ctx.fillText(authorText, centerX, authorY);
     }
 
     // --- UI Logic ---
@@ -183,8 +205,42 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === guideModal) guideModal.classList.add('hidden');
     });
 
+    // Theme toggle Logic
+    const themeBtns = document.querySelectorAll('.theme-btn');
+    themeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const selected = btn.getAttribute('data-set-theme');
+            if (selected === 'dark') {
+                theme.bg = '#121212';
+                theme.dotFilled = '#ffffff';
+                theme.dotEmpty = '#262626';
+                theme.accent = '#ff6b4a';
+                theme.text = '#666666';
+            } else if (selected === 'light') {
+                theme.bg = '#f4f4f4';
+                theme.dotFilled = '#111111';
+                theme.dotEmpty = '#dddddd';
+                theme.accent = '#ff6b4a';
+                theme.text = '#666666';
+            } else if (selected === 'cyberpunk') {
+                theme.bg = '#0d0221';
+                theme.dotFilled = '#00ffcc';
+                theme.dotEmpty = '#261b40';
+                theme.accent = '#ff007f';
+                theme.text = '#888888';
+            }
+            drawWallpaper();
+        });
+    });
+
     // Init
-    drawWallpaper();
+    // Ensure data.js is loaded
+    if (window.WORDS && window.QUOTES) {
+        drawWallpaper();
+    } else {
+        // Retry shortly if script hasn't fully loaded
+        setTimeout(drawWallpaper, 100);
+    }
     updateLink();
 
     // Auto-refresh: Live Clock (1 second)
@@ -193,14 +249,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const now = new Date();
         const currentDay = now.getDate();
 
-        // If date changed, redraw everything (new dot)
+        // If date changed, redraw everything
         if (currentDay !== lastDay) {
             lastDay = currentDay;
             console.log('Date changed, updating wallpaper...');
-            drawWallpaper();
-        }
-        // If just time changed, redraw to update clock
-        else {
             drawWallpaper();
         }
     }, 1000);
