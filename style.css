@@ -7,8 +7,9 @@
     --accent: #ff6b4a;
     --accent-glow: rgba(255, 107, 74, 0.3);
     
-    --font-sans: 'Inter', sans-serif;
-    --font-mono: 'Courier New', monospace;
+    --font-sans: 'Outfit', sans-serif;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
 }
 
 
@@ -26,6 +27,10 @@ body {
     overflow-x: hidden;
     line-height: 1.5;
     transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-heading);
 }
 
 /* Background Glow Effect */
