@@ -1,96 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Year Progress</title>
+    <title>Rings of Time | Wallpaper</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Courier+New&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-
-<body>
+<body data-theme="dark">
+    <div class="glow-bg"></div>
     <div id="app">
-        <!-- Live Preview -->
-        <div id="canvas-wrapper">
-            <canvas id="wallpaper-canvas"></canvas>
-        </div>
+        <header class="hero">
+            <h1>Rings of <span class="accent">Time</span></h1>
+            <p class="subtitle">A deeply stoic, dynamically generated wallpaper tracking the passage of time.</p>
+        </header>
 
-        <div id="ui-container">
-            <!-- Theme Controls -->
-            <div id="theme-controls">
-                <button class="theme-btn" data-set-theme="dark" style="background-color: #0a0a0a;"
-                    title="Dark"></button>
-                <button class="theme-btn" data-set-theme="light" style="background-color: #f4f4f4;"
-                    title="Light"></button>
-                <button class="theme-btn" data-set-theme="cyberpunk" style="background-color: #0d0221;"
-                    title="Cyberpunk"></button>
-            </div>
-
-            <!-- Configuration Section -->
-            <div id="config-section">
-                <h2>1. Select Your Device</h2>
-                <select id="resolution-select">
-                    <option value="default">Default (FHD 1080x1920)</option>
-                    <option value="s24u">Samsung S24 Ultra (1440x3120)</option>
-                    <option value="nz8p">Pixel 8 Pro (1344x2992)</option>
-                    <option value="i15pm">iPhone 15 Pro Max (1290x2796)</option>
-                    <option value="i15">iPhone 15/14 (1179x2556)</option>
-                    <option value="s24">Samsung S23/24 (1080x2340)</option>
-                    <option value="fhdplus">FHD+ Extra Tall (1080x2400)</option>
-                    <option value="op12">OnePlus 11/12 (1440x3216)</option>
-                    <option value="x1v">Sony Xperia 1 V (1644x3840)</option>
-                    <option value="hd">Generic HD (720x1280)</option>
-                    <option value="fold">Tablet / Folding (2200x2480)</option>
-                </select>
-
-                <h2>2. Your Automation Link</h2>
-                <div class="link-box">
-                    <input type="text" id="generated-link" readonly
-                        value="https://raw.githubusercontent.com/pranmya/year-progress/main/wallpaper.png">
-                    <button id="copy-btn">Copy</button>
+        <main class="content-grid">
+            <!-- Left: Preview -->
+            <div class="preview-section">
+                <div class="device-frame">
+                    <canvas id="wallpaper-canvas"></canvas>
+                </div>
+                <div class="theme-controls">
+                    <button class="theme-btn active" data-set-theme="dark" title="Dark Void" style="--btn-color: #000; border-color: #fff;"></button>
+                    <button class="theme-btn" data-set-theme="light" title="Light Minimal" style="--btn-color: #f4f4f4;"></button>
+                    <button class="theme-btn" data-set-theme="cyberpunk" title="Cyberpunk" style="--btn-color: #0d0221;"></button>
                 </div>
             </div>
 
-            <button id="toggle-guide-btn">Show Setup Guide (MacroDroid)</button>
-        </div>
-
-        <!-- Embedded Guide Modal -->
-        <div id="guide-modal" class="modal hidden">
-            <div class="modal-content large">
-                <span id="close-modal">&times;</span>
-                <h2>How to Automate (MacroDroid)</h2>
-                <div class="guide-steps">
-                    <div class="step">
+            <!-- Right: Config -->
+            <div class="config-section">
+                <div class="glass-card">
+                    <div class="step-header">
                         <span class="step-num">1</span>
-                        <p><strong>Trigger</strong>: Add "Day/Time Trigger". Set to <strong>00:05</strong> every day.
-                        </p>
+                        <h2>Select Device</h2>
                     </div>
-                    <div class="step">
+                    <p class="step-desc">Choose your exact screen resolution for pixel-perfect clarity.</p>
+                    <div class="select-wrapper">
+                        <select id="resolution-select">
+                            <option value="default">Default (FHD 1080x1920)</option>
+                            <option value="s24u">Samsung S24 Ultra (1440x3120)</option>
+                            <option value="nz8p">Pixel 8 Pro (1344x2992)</option>
+                            <option value="i15pm">iPhone 15 Pro Max (1290x2796)</option>
+                            <option value="i15">iPhone 15/14 (1179x2556)</option>
+                            <option value="s24">Samsung S23/24 (1080x2340)</option>
+                            <option value="fhdplus">FHD+ Extra Tall (1080x2400)</option>
+                            <option value="op12">OnePlus 11/12 (1440x3216)</option>
+                            <option value="x1v">Sony Xperia 1 V (1644x3840)</option>
+                            <option value="hd">Generic HD (720x1280)</option>
+                            <option value="fold">Tablet / Folding (2200x2480)</option>
+                        </select>
+                    </div>
+
+                    <div class="step-header" style="margin-top: 2.5rem;">
                         <span class="step-num">2</span>
-                        <p><strong>Action 1</strong>: Add "HTTP Request".</p>
-                        <ul>
-                            <li>Method: <strong>GET</strong></li>
-                            <li>URL: <strong>Paste the link from above!</strong></li>
-                            <li>Response: "Save to file" -> Name it <code>wallpaper.png</code></li>
-                        </ul>
+                        <h2>Get Automation URL</h2>
                     </div>
-                    <div class="step">
-                        <span class="step-num">3</span>
-                        <p><strong>Action 2</strong>: Add "Set Wallpaper".</p>
-                        <ul>
-                            <li>Select "Image"</li>
-                            <li>Choose the <code>wallpaper.png</code> you just saved.</li>
-                        </ul>
+                    <p class="step-desc">Use this URL in your automation app to refresh the wallpaper daily.</p>
+                    <div class="link-box">
+                        <input type="text" id="generated-link" readonly value="https://raw.githubusercontent.com/pranmya/year-progress/main/wallpaper.png">
+                        <button id="copy-btn" class="primary-btn">Copy</button>
+                    </div>
+                    
+                    <div class="guide-trigger">
+                        <button id="toggle-guide-btn" class="text-btn">How to automate (MacroDroid Setup) &rarr;</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Guide Modal -->
+    <div id="guide-modal" class="modal hidden">
+        <div class="modal-content glass-card">
+            <button id="close-modal" class="close-btn">&times;</button>
+            <h2 class="modal-title">Automation Guide</h2>
+            <p class="modal-desc">Setup MacroDroid to fetch the wallpaper every day at midnight.</p>
+            
+            <div class="guide-steps">
+                <div class="step-card">
+                    <div class="step-icon">⏰</div>
+                    <div class="step-text">
+                        <h3>Trigger</h3>
+                        <p>Add "Day/Time Trigger". Set to <strong>00:05</strong> every day.</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon">🌐</div>
+                    <div class="step-text">
+                        <h3>Action 1: HTTP Request</h3>
+                        <p>Method: <strong>GET</strong><br>
+                        URL: <strong>Paste your copied link</strong><br>
+                        Response: <strong>Save to file</strong> (Name it <code>wallpaper.png</code>)</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon">🖼️</div>
+                    <div class="step-text">
+                        <h3>Action 2: Set Wallpaper</h3>
+                        <p>Action: <strong>Set Wallpaper</strong><br>
+                        Select "Image" and choose the <code>wallpaper.png</code> file you saved.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
-
 </html>

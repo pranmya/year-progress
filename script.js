@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
         generatedLinkInput.select();
         document.execCommand('copy');
         copyBtn.textContent = 'Copied!';
-        setTimeout(() => copyBtn.textContent = 'Copy', 2000);
+        setTimeout(() => copyBtn.textContent = 'Copy URL', 2000);
     });
 
     // Guide Modal
@@ -227,7 +227,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeBtns = document.querySelectorAll('.theme-btn');
     themeBtns.forEach(btn => {
         btn.addEventListener('click', () => {
+            // Update active state on buttons
+            themeBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
             const selected = btn.getAttribute('data-set-theme');
+            // Update body data attribute so CSS variables update the UI
+            document.body.setAttribute('data-theme', selected);
+
+            // Update canvas theme variables
             if (selected === 'dark') {
                 theme.bg = '#121212';
                 theme.dotFilled = '#ffffff';
@@ -238,14 +246,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 theme.bg = '#f4f4f4';
                 theme.dotFilled = '#111111';
                 theme.dotEmpty = '#dddddd';
-                theme.accent = '#ff6b4a';
+                theme.accent = '#ff4757';
                 theme.text = '#666666';
             } else if (selected === 'cyberpunk') {
                 theme.bg = '#0d0221';
-                theme.dotFilled = '#00ffcc';
-                theme.dotEmpty = '#261b40';
-                theme.accent = '#ff007f';
-                theme.text = '#888888';
+                theme.dotFilled = '#00f0ff';
+                theme.dotEmpty = '#261447';
+                theme.accent = '#ff00ff';
+                theme.text = '#b58dff';
             }
             drawWallpaper();
         });
