@@ -223,42 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === guideModal) guideModal.classList.add('hidden');
     });
 
-    // Theme toggle Logic
-    const themeBtns = document.querySelectorAll('.theme-btn');
-    themeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Update active state on buttons
-            themeBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            const selected = btn.getAttribute('data-set-theme');
-            // Update body data attribute so CSS variables update the UI
-            document.body.setAttribute('data-theme', selected);
-
-            // Update canvas theme variables
-            if (selected === 'dark') {
-                theme.bg = '#121212';
-                theme.dotFilled = '#ffffff';
-                theme.dotEmpty = '#262626';
-                theme.accent = '#ff6b4a';
-                theme.text = '#666666';
-            } else if (selected === 'light') {
-                theme.bg = '#f4f4f4';
-                theme.dotFilled = '#111111';
-                theme.dotEmpty = '#dddddd';
-                theme.accent = '#ff4757';
-                theme.text = '#666666';
-            } else if (selected === 'cyberpunk') {
-                theme.bg = '#0d0221';
-                theme.dotFilled = '#00f0ff';
-                theme.dotEmpty = '#261447';
-                theme.accent = '#ff00ff';
-                theme.text = '#b58dff';
-            }
-            drawWallpaper();
-        });
-    });
-
     // Init
     // Ensure data.js is loaded
     if (window.WORDS && window.QUOTES) {
