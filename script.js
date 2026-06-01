@@ -55,7 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const quoteText = quoteObj.text;
         const authorText = `— ${quoteObj.author}`;
 
-        const dateString = `${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase()}  •  ${daysLeft}D LEFT  •  ${progressPercent}%`;
+        const dayOfWeek = now.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
+        const dateString = `${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase()}  •  ${dayOfWeek}  •  ${daysLeft}D LEFT  •  ${progressPercent}%`;
 
         // Layout Parameters
         const centerX = WIDTH / 2;

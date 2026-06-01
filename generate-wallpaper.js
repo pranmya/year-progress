@@ -13,7 +13,8 @@ const totalDays = (now.getFullYear() % 4 === 0) ? 366 : 365;
 const daysLeft = totalDays - dayOfYear;
 const progressPercent = Math.round((dayOfYear / totalDays) * 100);
 
-const dateString = `${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase()}  •  ${daysLeft}D LEFT  •  ${progressPercent}%`;
+const dayOfWeek = now.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
+const dateString = `${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase()}  •  ${dayOfWeek}  •  ${daysLeft}D LEFT  •  ${progressPercent}%`;
 
 // Pick Word & Quote
 const wordIndex = (dayOfYear - 1) % WORDS.length;
