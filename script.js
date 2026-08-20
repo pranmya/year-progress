@@ -169,6 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillStyle = theme.text;
         ctx.fillText(authorText, centerX, authorY);
     }
+
     // --- UI Logic ---
     const generatedLinkInput = document.getElementById('generated-link');
     const copyBtn = document.getElementById('copy-btn');
@@ -180,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
         generatedLinkInput.select();
         document.execCommand('copy');
         copyBtn.textContent = 'Copied!';
-        setTimeout(() => copyBtn.textContent = 'Copy', 2000);
+        setTimeout(() => copyBtn.textContent = 'Copy URL', 2000);
     });
 
     // Guide Modal
@@ -213,4 +214,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 1000);
 });
-    
