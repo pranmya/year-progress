@@ -169,51 +169,18 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillStyle = theme.text;
         ctx.fillText(authorText, centerX, authorY);
     }
-
     // --- UI Logic ---
-    const resolutionSelect = document.getElementById('resolution-select');
     const generatedLinkInput = document.getElementById('generated-link');
     const copyBtn = document.getElementById('copy-btn');
     const guideBtn = document.getElementById('toggle-guide-btn');
     const guideModal = document.getElementById('guide-modal');
     const closeModal = document.getElementById('close-modal');
 
-    // Base Repo URL
-    const BASE_URL = 'https://raw.githubusercontent.com/pranmya/year-progress/main/';
-
-    function updateLink() {
-        const res = resolutionSelect.value;
-        let filename = 'wallpaper.png';
-
-        if (res !== 'default') {
-            const resMap = {
-                's24u': '1440x3120',
-                'nz8p': '1344x2992',
-                'i15pm': '1290x2796',
-                'i15': '1179x2556',
-                's24': '1080x2340',
-                'fhdplus': '1080x2400',
-                'op12': '1440x3216',
-                'x1v': '1644x3840',
-                'hd': '720x1280',
-                'fold': '2200x2480'
-            };
-
-            if (resMap[res]) {
-                filename = `wallpaper-${resMap[res]}.png`;
-            }
-        }
-
-        generatedLinkInput.value = BASE_URL + filename;
-    }
-
-    resolutionSelect.addEventListener('change', updateLink);
-
     copyBtn.addEventListener('click', () => {
         generatedLinkInput.select();
         document.execCommand('copy');
         copyBtn.textContent = 'Copied!';
-        setTimeout(() => copyBtn.textContent = 'Copy URL', 2000);
+        setTimeout(() => copyBtn.textContent = 'Copy', 2000);
     });
 
     // Guide Modal
@@ -231,7 +198,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Retry shortly if script hasn't fully loaded
         setTimeout(drawWallpaper, 100);
     }
-    updateLink();
 
     // Auto-refresh: Live Clock (1 second)
     let lastDay = new Date().getDate();
@@ -247,3 +213,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 1000);
 });
+    
