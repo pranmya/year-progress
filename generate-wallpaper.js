@@ -35,18 +35,11 @@ const theme = {
 };
 
 const RESOLUTIONS = [
-    { name: 'default', width: 1080, height: 2340 },
-    { name: '1440x3120', width: 1440, height: 3120 },
-    { name: '1344x2992', width: 1344, height: 2992 },
-    { name: '1290x2796', width: 1290, height: 2796 },
-    { name: '1179x2556', width: 1179, height: 2556 },
-    { name: '1080x2340', width: 1080, height: 2340 },
-    { name: '1080x2400', width: 1080, height: 2400 },
-    { name: '1440x3216', width: 1440, height: 3216 },
-    { name: '1644x3840', width: 1644, height: 3840 },
-    { name: '720x1280', width: 720, height: 1280 },
-    { name: '2200x2480', width: 2200, height: 2480 }
+    // Universal High-Res Canvas (automatically scaled/cropped by Android)
+    { name: 'default', width: 2160, height: 4800 }
 ];
+
+RESOLUTIONS.forEach(res => {
 
 RESOLUTIONS.forEach(res => {
     const { width, height, name } = res;
