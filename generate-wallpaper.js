@@ -40,8 +40,6 @@ const RESOLUTIONS = [
 ];
 
 RESOLUTIONS.forEach(res => {
-
-RESOLUTIONS.forEach(res => {
     const { width, height, name } = res;
     const scale = width / 1080;
     
