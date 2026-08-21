@@ -212,33 +212,42 @@ select option {
 
 .link-box {
     display: flex;
-    gap: 0.5rem;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid var(--surface-border);
+    gap: 8px;
+    margin: 20px 0;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    padding: 0.5rem;
+    padding: 6px;
+    align-items: center;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
 }
 
-input[type="text"] {
+.link-box input {
     flex: 1;
     background: transparent;
     border: none;
-    color: var(--text-primary);
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    padding: 0.5rem 0.8rem;
+    color: var(--text);
+    padding: 8px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
     outline: none;
+    cursor: text;
 }
 
 .primary-btn {
     background: var(--accent);
-    color: #000;
+    color: #fff;
     border: none;
-    padding: 0.6rem 1.5rem;
+    padding: 10px 20px;
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.2s ease;
+}
+
+.primary-btn.success {
+    background: #2ea043;
+    color: #fff;
 }
 
 .primary-btn:hover {

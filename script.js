@@ -183,11 +183,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const guideModal = document.getElementById('guide-modal');
     const closeModal = document.getElementById('close-modal');
 
-    copyBtn.addEventListener('click', () => {
-        generatedLinkInput.select();
-        document.execCommand('copy');
-        copyBtn.textContent = 'Copied!';
-        setTimeout(() => copyBtn.textContent = 'Copy URL', 2000);
+    copyBtn.addEventListener('click', async () => {
+        try {
+            await navigator.clipboard.writeText(generatedLinkInput.value);
+            copyBtn.textContent = 'Copied! ✔';
+            copyBtn.classList.add('success');
+            setTimeout(() => {
+                copyBtn.textContent = 'Copy';
+                copyBtn.classList.remove('success');
+            }, 2000);
+        } catch (err) {
+            console.error('Failed to copy', err);
+        }
     });
 
     // Guide Modal
