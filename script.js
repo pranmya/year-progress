@@ -172,6 +172,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- UI Logic ---
     const generatedLinkInput = document.getElementById('generated-link');
+    
+    // Automatically set the URL based on the current Vercel deployment
+    // e.g. https://year-progress-kappa.vercel.app/api/wallpaper
+    // Or, if running on localhost, http://localhost:3000/api/wallpaper
+    generatedLinkInput.value = window.location.origin + '/api/wallpaper?w=2160&h=4800';
+
     const copyBtn = document.getElementById('copy-btn');
     const guideBtn = document.getElementById('toggle-guide-btn');
     const guideModal = document.getElementById('guide-modal');
