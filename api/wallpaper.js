@@ -1,5 +1,14 @@
-const { createCanvas } = require('canvas');
+const { createCanvas, registerFont } = require('canvas');
+const path = require('path');
 const { WORDS, QUOTES } = require('../data.js');
+
+try {
+    registerFont(path.join(__dirname, '..', 'fonts', 'JetBrainsMono.ttf'), { family: 'JetBrains Mono' });
+    registerFont(path.join(__dirname, '..', 'fonts', 'Outfit.ttf'), { family: 'Outfit' });
+    registerFont(path.join(__dirname, '..', 'fonts', 'Lora-Italic.ttf'), { family: 'Lora', style: 'italic' });
+} catch (e) {
+    console.log("Could not load local fonts", e);
+}
 
 module.exports = async function (req, res) {
     try {
@@ -59,10 +68,10 @@ module.exports = async function (req, res) {
         ctx.textBaseline = 'middle';
         
         let wordFontSize = 80 * scale;
-        ctx.font = `700 ${wordFontSize}px "Courier New", monospace`;
+        ctx.font = `700 ${wordFontSize}px "JetBrains Mono", monospace`;
         while (ctx.measureText(word).width > width - (100 * scale) && wordFontSize > 40 * scale) {
             wordFontSize -= 2 * scale;
-            ctx.font = `700 ${wordFontSize}px "Courier New", monospace`;
+            ctx.font = `700 ${wordFontSize}px "JetBrains Mono", monospace`;
         }
         
         ctx.fillStyle = theme.accent;
@@ -70,7 +79,7 @@ module.exports = async function (req, res) {
         
         // 2. Date String
         const dateY = wordY + 80 * scale;
-        ctx.font = `500 ${30 * scale}px sans-serif`;
+        ctx.font = `500 ${30 * scale}px "Outfit", sans-serif`;
         ctx.fillStyle = theme.text;
         ctx.fillText(dateString, centerX, dateY);
         
@@ -126,7 +135,7 @@ module.exports = async function (req, res) {
         
         // 4. Quote Section
         const quoteY1 = centerY + maxRadius + 120 * scale;
-        ctx.font = `italic 400 ${36 * scale}px Georgia, serif`;
+        ctx.font = `italic 400 ${36 * scale}px "Lora", serif`;
         const wordsArr = quoteText.split(' ');
         let line = '"';
         let lines = [];
@@ -153,7 +162,7 @@ module.exports = async function (req, res) {
         
         // Author
         const authorY = currentQuoteY + 30 * scale;
-        ctx.font = `500 ${24 * scale}px sans-serif`;
+        ctx.font = `500 ${24 * scale}px "Outfit", sans-serif`;
         ctx.fillStyle = theme.text;
         ctx.fillText(authorText, centerX, authorY);
         
