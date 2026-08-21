@@ -34,8 +34,10 @@ module.exports = async function (req, res) {
             dotEmpty: '#262626'
         };
 
-        // Current Date Calculation
-        const now = new Date();
+        // Current Date Calculation (Shifted to IST: UTC + 5:30)
+        const nowUtc = new Date();
+        const now = new Date(nowUtc.getTime() + (5.5 * 60 * 60 * 1000));
+        
         const start = new Date(now.getFullYear(), 0, 0);
         const diff = now - start;
         const oneDay = 1000 * 60 * 60 * 24;
