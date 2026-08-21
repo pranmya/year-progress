@@ -28,20 +28,24 @@
 
             <!-- Right: Config -->
             <div class="config-section">
-                <div class="glass-card">
-                    <div class="step-header">
-                        <span class="step-num">1</span>
-                        <h2>Get Universal URL</h2>
-                    </div>
-                    <p class="step-desc">Use this URL in your automation app to refresh the wallpaper daily.</p>
-                    <div class="link-box">
-                        <input type="text" id="generated-link" readonly value="...">
-                        <button id="copy-btn" class="primary-btn">Copy</button>
+                <div class="premium-card">
+                    <div class="card-badge">API ENDPOINT</div>
+                    <h2 class="card-title">Universal URL</h2>
+                    <p class="card-desc">Your personal, dynamic endpoint. Use this link in your automation app to fetch a freshly generated wallpaper on-demand.</p>
+                    
+                    <div class="code-snippet-box">
+                        <div class="code-scroll">
+                            <input type="text" id="generated-link" readonly value="...">
+                        </div>
+                        <button id="copy-btn" class="copy-icon-btn" aria-label="Copy to clipboard" title="Copy URL">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
                     </div>
                     
-                    <div class="guide-trigger">
-                        <button id="toggle-guide-btn" class="text-btn">How to automate (Automate App Setup) &rarr;</button>
-                    </div>
+                    <button id="toggle-guide-btn" class="subtle-link-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                        View Automation Guide
+                    </button>
                 </div>
             </div>
         </main>
