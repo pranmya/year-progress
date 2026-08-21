@@ -3,7 +3,7 @@ const path = require('path');
 const { WORDS, QUOTES } = require('../data.js');
 
 try {
-    registerFont(path.join(__dirname, '..', 'fonts', 'JetBrainsMono.ttf'), { family: 'JetBrains Mono' });
+    registerFont(path.join(__dirname, '..', 'fonts', 'CourierPrime-Bold.ttf'), { family: 'Courier Prime', weight: 'bold' });
     registerFont(path.join(__dirname, '..', 'fonts', 'Outfit.ttf'), { family: 'Outfit' });
     registerFont(path.join(__dirname, '..', 'fonts', 'Lora-Italic.ttf'), { family: 'Lora', style: 'italic' });
 } catch (e) {
@@ -68,10 +68,10 @@ module.exports = async function (req, res) {
         ctx.textBaseline = 'middle';
         
         let wordFontSize = 80 * scale;
-        ctx.font = `700 ${wordFontSize}px "JetBrains Mono", monospace`;
+        ctx.font = `bold ${wordFontSize}px "Courier Prime", monospace`;
         while (ctx.measureText(word).width > width - (100 * scale) && wordFontSize > 40 * scale) {
             wordFontSize -= 2 * scale;
-            ctx.font = `700 ${wordFontSize}px "JetBrains Mono", monospace`;
+            ctx.font = `bold ${wordFontSize}px "Courier Prime", monospace`;
         }
         
         ctx.fillStyle = theme.accent;
