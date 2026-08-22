@@ -53,14 +53,16 @@ You can turn this API into a live wallpaper that refreshes automatically every s
 
 **Block 1: Await time**
 * Tap on the block to edit it.
-* Set the **Time of day** to `00:10` (so it updates 10 minutes past midnight).
+* Set the **Time of day** to `12:10 AM` (so it updates 10 minutes past midnight).
 
 **Block 2: HTTP request**
 * **Method**: `GET`
-* **Request URL**: `https://year-progress-kappa.vercel.app/api/wallpaper`
-* Scroll down to **Save response path** and type exactly: `Download/wall.png`
+* **Request URL**: Paste the Universal URL you copied from your website here.
+* **Request content type**: `JSON`
+* **Save response in**: `Save to file`
+* **Save response path**: Type exactly `Download/wall.png`
 
 **Block 3: Set image wallpaper**
-* **Image URI**: Type exactly: `Download/wall.png`
+* **Image URI**: Type exactly `Download/wall.png`
 
 Save the Flow, click **Start**, and enjoy your automated stoic wallpaper!
