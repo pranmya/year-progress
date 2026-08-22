@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dotFilled: '#ffffff', // Past days: White
         dotEmpty: '#3a3a3a',  // Future days: Brightened from #262626
         dotToday: '#ff6b4a',  // Today: Orange/Coral
-        text: '#cccccc',      // Text: Brightened significantly for readability
+        text: '#999999',      // Text: Brightened from #666666
         accent: '#ff6b4a'     // Accent text: Orange
     };
 
@@ -78,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillText(word, centerX, wordY);
 
         // 2. Date String
-        const dateY = wordY + 90 * scale; // Pushed down slightly
-        ctx.font = `bold ${36 * scale}px sans-serif`; // Increased from 30
+        const dateY = wordY + 80 * scale;
+        ctx.font = `bold ${30 * scale}px sans-serif`;
         ctx.fillStyle = theme.text;
         ctx.fillText(dateString, centerX, dateY);
 
@@ -164,8 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         // Author
-        const authorY = currentQuoteY + 20 * scale;
-        ctx.font = `bold ${32 * scale}px sans-serif`;
+        const authorY = currentQuoteY + 30 * scale;
+        ctx.font = `bold ${24 * scale}px sans-serif`;
         ctx.fillStyle = theme.text;
         ctx.fillText(authorText, centerX, authorY);
     }
