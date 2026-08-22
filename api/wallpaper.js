@@ -82,7 +82,7 @@ module.exports = async function (req, res) {
         
         // 2. Date String
         const dateY = wordY + 80 * scale;
-        ctx.font = `500 ${30 * scale}px "Outfit", sans-serif`;
+        ctx.font = `700 ${30 * scale}px "Outfit", sans-serif`;
         ctx.fillStyle = theme.text;
         ctx.fillText(dateString, centerX, dateY);
         
@@ -165,7 +165,7 @@ module.exports = async function (req, res) {
         
         // Author
         const authorY = currentQuoteY + 30 * scale;
-        ctx.font = `500 ${24 * scale}px "Outfit", sans-serif`;
+        ctx.font = `700 ${24 * scale}px "Outfit", sans-serif`;
         ctx.fillStyle = theme.text;
         ctx.fillText(authorText, centerX, authorY);
         
