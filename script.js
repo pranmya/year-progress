@@ -10,9 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const theme = {
         bg: '#121212',        // Very dark grey
         dotFilled: '#ffffff', // Past days: White
-        dotEmpty: '#262626',  // Future days: Dark Grey
+        dotEmpty: '#3a3a3a',  // Future days: Brightened from #262626
         dotToday: '#ff6b4a',  // Today: Orange/Coral
-        text: '#666666',      // Text: Grey
+        text: '#999999',      // Text: Brightened from #666666
         accent: '#ff6b4a'     // Accent text: Orange
     };
 

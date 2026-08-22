@@ -28,10 +28,11 @@ module.exports = async function (req, res) {
 
         const theme = {
             bg: '#121212',
-            text: '#666666',
-            accent: '#ff6b4a',
             dotFilled: '#ffffff',
-            dotEmpty: '#262626'
+            dotEmpty: '#3a3a3a', // Brightened from #262626
+            dotToday: '#ff6b4a',
+            text: '#999999',     // Brightened from #666666
+            accent: '#ff6b4a'
         };
 
         // Current Date Calculation (Shifted to IST: UTC + 5:30)
