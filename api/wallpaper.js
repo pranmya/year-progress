@@ -85,7 +85,7 @@ module.exports = async function (req, res) {
         // 2. Date String
         const dateY = wordY + 80 * scale;
         ctx.font = `normal ${34 * scale}px "OutfitMedium", sans-serif`;
-        ctx.fillStyle = '#aaaaaa'; // Reverted from white to a legible light grey
+        ctx.fillStyle = '#888888'; // Dimmed slightly
         ctx.fillText(dateString, centerX, dateY);
         
         // 3. Rings
