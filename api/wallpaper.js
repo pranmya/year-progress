@@ -158,15 +158,15 @@ module.exports = async function (req, res) {
         lines.push(line.trim() + '"');
         
         ctx.fillStyle = theme.dotFilled;
-        let currentQuoteY = quoteY1;
+        let currentQuoteY = height - 350 * scale;
         lines.forEach(l => {
             ctx.fillText(l, centerX, currentQuoteY);
             currentQuoteY += 50 * scale;
         });
         
         // Author
-        const authorY = currentQuoteY + 30 * scale;
-        ctx.font = `bold ${24 * scale}px "Outfit", sans-serif`;
+        const authorY = currentQuoteY + 20 * scale;
+        ctx.font = `bold ${32 * scale}px "Outfit", sans-serif`; // Increased from 24
         ctx.fillStyle = theme.text;
         ctx.fillText(authorText, centerX, authorY);
         
