@@ -4,7 +4,8 @@ const { WORDS, QUOTES } = require('../data.js');
 
 try {
     registerFont(path.join(__dirname, '..', 'fonts', 'CourierPrime-Bold.ttf'), { family: 'Courier Prime', weight: 'bold' });
-    registerFont(path.join(__dirname, '..', 'fonts', 'Outfit.ttf'), { family: 'Outfit' });
+    registerFont(path.join(__dirname, '..', 'fonts', 'Outfit.ttf'), { family: 'Outfit', weight: 'normal' });
+    registerFont(path.join(__dirname, '..', 'fonts', 'Outfit-Bold.ttf'), { family: 'Outfit', weight: 'bold' });
     registerFont(path.join(__dirname, '..', 'fonts', 'Lora-Italic.ttf'), { family: 'Lora', style: 'italic' });
 } catch (e) {
     console.log("Could not load local fonts", e);
@@ -82,7 +83,7 @@ module.exports = async function (req, res) {
         
         // 2. Date String
         const dateY = wordY + 80 * scale;
-        ctx.font = `700 ${30 * scale}px "Outfit", sans-serif`;
+        ctx.font = `bold ${30 * scale}px "Outfit", sans-serif`;
         ctx.fillStyle = theme.text;
         ctx.fillText(dateString, centerX, dateY);
         
@@ -165,7 +166,7 @@ module.exports = async function (req, res) {
         
         // Author
         const authorY = currentQuoteY + 30 * scale;
-        ctx.font = `700 ${24 * scale}px "Outfit", sans-serif`;
+        ctx.font = `bold ${24 * scale}px "Outfit", sans-serif`;
         ctx.fillStyle = theme.text;
         ctx.fillText(authorText, centerX, authorY);
         
