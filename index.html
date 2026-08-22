@@ -102,7 +102,14 @@
                     <div class="step-icon">6</div>
                     <div class="step-text">
                         <h3>Connect & Start</h3>
-                        <p>Drag the "OK" dots to connect the blocks in order. <em>Crucially, connect the "OK" dot of the final Wallpaper block back to the "IN" dot of the Await Time block to create an infinite loop!</em> Then click <strong>Start</strong>.</p>
+                        <p>Drag the dots to connect the blocks in this exact order:</p>
+                        <ul style="margin: 8px 0; padding-left: 20px; color: #888; font-size: 0.9rem; line-height: 1.5;">
+                            <li><strong>Flow beginning</strong> (GO) &rarr; <strong>Await time</strong> (IN)</li>
+                            <li><strong>Await time</strong> (OK) &rarr; <strong>HTTP request</strong> (IN)</li>
+                            <li><strong>HTTP request</strong> (OK) &rarr; <strong>Wallpaper Set</strong> (IN)</li>
+                            <li><strong>Wallpaper Set</strong> (OK) &rarr; <strong>Await time</strong> (IN) <em>(Creates infinite loop)</em></li>
+                        </ul>
+                        <p>Finally, click <strong>Start</strong> to activate!</p>
                     </div>
                 </div>
             </div>
