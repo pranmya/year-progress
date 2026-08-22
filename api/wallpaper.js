@@ -5,6 +5,7 @@ const { WORDS, QUOTES } = require('../data.js');
 try {
     registerFont(path.join(__dirname, '..', 'fonts', 'CourierPrime-Bold.ttf'), { family: 'Courier Prime', weight: 'bold' });
     registerFont(path.join(__dirname, '..', 'fonts', 'Outfit.ttf'), { family: 'Outfit', weight: 'normal' });
+    registerFont(path.join(__dirname, '..', 'fonts', 'Outfit-Medium.ttf'), { family: 'OutfitMedium' });
     registerFont(path.join(__dirname, '..', 'fonts', 'Outfit-Bold.ttf'), { family: 'Outfit', weight: 'bold' });
     registerFont(path.join(__dirname, '..', 'fonts', 'Lora-Italic.ttf'), { family: 'Lora', style: 'italic' });
 } catch (e) {
@@ -83,7 +84,7 @@ module.exports = async function (req, res) {
         
         // 2. Date String
         const dateY = wordY + 80 * scale;
-        ctx.font = `400 ${34 * scale}px "Outfit", sans-serif`;
+        ctx.font = `normal ${34 * scale}px "OutfitMedium", sans-serif`;
         ctx.fillStyle = '#ffffff'; // Changed to pure white
         ctx.fillText(dateString, centerX, dateY);
         
@@ -166,7 +167,7 @@ module.exports = async function (req, res) {
         
         // Author
         const authorY = currentQuoteY + 30 * scale;
-        ctx.font = `400 ${34 * scale}px "Outfit", sans-serif`;
+        ctx.font = `normal ${34 * scale}px "OutfitMedium", sans-serif`;
         ctx.fillStyle = theme.accent;
         ctx.fillText(authorText, centerX, authorY);
         
