@@ -53,16 +53,18 @@ You can turn this API into a live wallpaper that refreshes automatically every s
 
 **Block 1: Await time**
 * Tap on the block to edit it.
-* Set the **Time of day** to `12:10 AM` (so it updates 10 minutes past midnight).
+* **Time of day**: Set to `12:10 AM` (if your app uses 12hr time) OR `00:10` (if your app uses 24hr time).
+* **Weekdays**: Make sure to check/select **every single day of the week** so it runs daily!
 
 **Block 2: HTTP request**
 * **Method**: `GET`
 * **Request URL**: Paste the Universal URL you copied from your website here.
 * **Request content type**: `JSON`
 * **Save response in**: `Save to file`
-* **Save response path**: Type exactly `Download/wall.png`
+* **Save response path**: Tap this, select the `Download` folder (or any folder you prefer), and type the filename as `wall.png` (make sure to include `.png`), then click OK.
 
 **Block 3: Set image wallpaper**
-* **Image URI**: Type exactly `Download/wall.png`
+* **Image URI**: First, tap the **`fx`** symbol to enable text input. Inside the double quotes, type the exact same path from the previous step (e.g., `"Download/wall.png"`).
+* **Options**: Make sure to check/tick both **System** and **Lock screen** at the bottom so the wallpaper applies everywhere.
 
 Save the Flow, click **Start**, and enjoy your automated stoic wallpaper!
