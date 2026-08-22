@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 2. Date String
         const dateY = wordY + 80 * scale;
-        ctx.font = `bold ${34 * scale}px sans-serif`;
+        ctx.font = `400 ${34 * scale}px sans-serif`;
         ctx.fillStyle = '#ffffff';
         ctx.fillText(dateString, centerX, dateY);
 
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Author
         const authorY = currentQuoteY + 30 * scale;
-        ctx.font = `bold ${34 * scale}px sans-serif`;
+        ctx.font = `400 ${34 * scale}px sans-serif`;
         ctx.fillStyle = theme.accent;
         ctx.fillText(authorText, centerX, authorY);
     }
