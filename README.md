@@ -33,24 +33,34 @@ It is a 100% dynamic, on-the-fly generation pipeline.
 
 ## 📱 How to Automate (Android Setup)
 
-You can turn this API into a live wallpaper that refreshes automatically every single morning using the free [Automate](https://play.google.com/store/apps/details?id=com.llamalab.automate) app by LlamaLab.
+You can turn this API into a live wallpaper that refreshes automatically every single morning using the free Automate app. Here is the exact step-by-step process:
 
-Here is the exact Flow you need to build:
+1. **Download the App**: Install **Automate** by LlamaLab from the Google Play Store.
+2. **Create a Flow**: Open the app and click the **`+`** icon at the bottom to create a new flow. 
+3. **Name it**: Tap on "Untitled" at the top and name it "Wallpaper".
+4. **Enter Edit Mode**: Tap the **Pencil icon** at the bottom, then tap the **Connections icon** (the lines/nodes icon).
+5. **Add Blocks**: Tap the **`+`** icon and search for these 3 blocks to add them to your board:
+   * `Await time`
+   * `HTTP request`
+   * `Set image wallpaper`
+6. **Connect Them**: Drag the connection dots to join the blocks exactly as shown in the diagram below (making sure to create the infinite loop from the last block back to the time block!).
 
-### 1. The Trigger (Time Await)
-* Add a **Time await** block. 
-* Set the "Time of day" to **00:01 (Midnight)**. Because this is a live API, it updates the very second the clock strikes midnight!
+<div align="center">
+  <img src="docs/automate-flow.png" width="300" alt="Automate Flow Diagram">
+</div>
 
-### 2. The Fetch (HTTP Request)
-* Connect the "OK" dot of the Time block to an **HTTP request** block.
+### Configure the Blocks:
+
+**Block 1: Await time**
+* Tap on the block to edit it.
+* Set the **Time of day** to `00:10` (so it updates 10 minutes past midnight).
+
+**Block 2: HTTP request**
 * **Method**: `GET`
 * **Request URL**: `https://year-progress-kappa.vercel.app/api/wallpaper`
-* **Save response path**: Type exactly `Download/wallpaper.png`
+* Scroll down to **Save response path** and type exactly: `Download/wall.png`
 
-### 3. The Display (Wallpaper Set)
-* Connect the "OK" dot of the HTTP block to a **Wallpaper set** block.
-* **Image URI**: Type exactly `Download/wallpaper.png`
+**Block 3: Set image wallpaper**
+* **Image URI**: Type exactly: `Download/wall.png`
 
-### 4. The Infinite Loop
-* **Crucial Step**: Connect the "OK" dot of the Wallpaper Set block back up to the "IN" dot of the Time Await block! This ensures the app loops forever and updates your wallpaper every single night without you doing anything.
-* Save the Flow and click **Start**!
+Save the Flow, click **Start**, and enjoy your automated stoic wallpaper!
