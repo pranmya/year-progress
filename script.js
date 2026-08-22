@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. Date String
         const dateY = wordY + 80 * scale;
         ctx.font = `500 ${34 * scale}px sans-serif`;
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = '#aaaaaa';
         ctx.fillText(dateString, centerX, dateY);
 
         // 3. Rings of Time
